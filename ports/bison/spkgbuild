@@ -1,0 +1,23 @@
+# description	: A parser generator
+# homepage	: https://www.gnu.org/software/bison/bison.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: m4 bash
+
+name=bison
+version=3.5
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,info}
+}

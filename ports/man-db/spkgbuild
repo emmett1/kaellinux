@@ -1,0 +1,34 @@
+# description	: Programs for finding and viewing man pages
+# homepage	: https://www.nongnu.org/man-db/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: bash gdbm groff less libpipeline zlib
+
+name=man-db
+version=2.9.0
+release=1
+source="https://savannah.nongnu.org/download/man-db/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST --without-libseccomp"
+	fi
+
+	cd $name-$version
+
+	./configure $flags \
+		    --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libexecdir=/usr/lib \
+	            --disable-setuid \
+	            --enable-cache-owner=bin \
+	            --with-browser=/usr/bin/lynx \
+	            --with-vgrind=/usr/bin/vgrind \
+	            --with-grap=/usr/bin/grap \
+	            --with-systemdtmpfilesdir=no \
+		    --with-systemdsystemunitdir=no \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}

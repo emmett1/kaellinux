@@ -1,0 +1,50 @@
+# description	: Utilities for showing and setting the basic system characteristics
+# homepage	: https://www.gnu.org/software/coreutils/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl attr gmp
+
+name=coreutils
+version=8.31
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	$name-i18n-1.patch
+	musl-cross-fix.patch
+	remove-usr-local-lib-from-m4.patch"
+
+build() {
+	cd $name-$version
+
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+		patch -Np1 -i $SRC/musl-cross-fix.patch
+		patch -Np1 -i $SRC/remove-usr-local-lib-from-m4.patch
+	fi
+
+	# fixes POSIX requires that programs from Coreutils recognize
+	# character boundaries correctly even in multibyte locales
+	patch -Np1 -i ../$name-i18n-1.patch
+	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
+
+	autoreconf -fiv
+	FORCE_UNSAFE_CONFIGURE=1 \
+	./configure $flags \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--enable-no-install-program=kill,uptime \
+		--disable-nls
+	FORCE_UNSAFE_CONFIGURE=1 make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/{bin,usr/sbin}
+	mv -v $PKG/usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} $PKG/bin
+	mv -v $PKG/usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm} $PKG/bin
+	mv -v $PKG/usr/bin/{rmdir,stty,sync,true,uname} $PKG/bin
+	mv -v $PKG/usr/bin/chroot $PKG/usr/sbin
+	mkdir -pv $PKG/usr/share/man/man8
+	mv -v $PKG/usr/share/man/man1/chroot.1 $PKG/usr/share/man/man8/chroot.8
+	sed -i s/\"1\"/\"8\"/1 $PKG/usr/share/man/man8/chroot.8
+
+	mv -v $PKG/usr/bin/{head,sleep,nice} $PKG/bin
+
+	rm -r $PKG/usr/share/info/
+}

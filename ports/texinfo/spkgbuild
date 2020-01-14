@@ -1,0 +1,26 @@
+# description	: Programs for reading, writing, and converting info pages
+# homepage	: https://www.gnu.org/software/texinfo/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gzip ncurses perl bash
+
+name=texinfo
+version=6.7
+release=1
+source="https://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	# Fix a file that creates a lot of failures in the regression checks
+	sed -i '5481,5485 s/({/(\\{/' tp/Texinfo/Parser.pm
+
+	./configure $flags --prefix=/usr --disable-static --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
+}

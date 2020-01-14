@@ -1,0 +1,27 @@
+# description	: Contains math libraries that useful functions for arbitrary precision arithmetic
+# homepage	: https://gmplib.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gcc bash
+
+name=gmp
+version=6.1.2
+release=1
+source="https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags \
+		    --prefix=/usr    \
+	            --enable-cxx     \
+	            --build=$MACHTYPE \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share
+}

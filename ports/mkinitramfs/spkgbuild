@@ -1,0 +1,16 @@
+# description	: Modular initramfs image creation utility
+# depends	: libarchive bash
+
+name=mkinitramfs
+version=20191217
+release=1
+backup="etc/mkinitramfs.conf"
+_commit=43507426fba4d2579bdb4795654a093908bcfb41
+source="$name-$_commit.tar.gz::https://github.com/emmett1/mkinitramfs/archive/$_commit.tar.gz
+	mkinitramfs.conf"
+
+build() {
+	cd $name-$_commit
+	DESTDIR=$PKG ./INSTALL.sh
+	install -m644 $SRC/mkinitramfs.conf $PKG/etc/
+}

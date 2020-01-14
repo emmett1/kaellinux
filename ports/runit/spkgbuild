@@ -1,0 +1,32 @@
+# description	: A UNIX init scheme with service supervision
+
+name=runit
+version=2.1.2
+release=1
+source="http://smarden.org/runit/$name-$version.tar.gz
+	cross.patch"
+
+build() {
+	cd admin/$name-$version
+
+	patch -Np1 -i $SRC/cross.patch
+
+	echo "${CC:-gcc} $CFLAGS" > src/conf-cc
+	echo "${CC:-gcc} $LDFLAGS" > src/conf-ld
+
+	# set default service path to /var/service
+	sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' src/sv.c
+
+	#./package/compile
+	#./package/check
+
+	make -C src
+	
+	install -d $PKG/sbin
+	for b in $(cat package/commands); do
+		install -m 755 src/$b $PKG/sbin
+	done
+	
+	install -d $PKG/usr/share/man/man8
+	install -m 644 man/* $PKG/usr/share/man/man8
+}

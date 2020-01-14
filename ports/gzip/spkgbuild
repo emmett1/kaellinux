@@ -1,0 +1,25 @@
+# description	: Programs for compressing and decompressing files
+# homepage	: https://www.gnu.org/software/gzip/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: bash
+
+name=gzip
+version=1.10
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/gzip $PKG/bin
+}

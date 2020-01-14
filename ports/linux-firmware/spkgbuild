@@ -1,0 +1,16 @@
+# description	: Firmware files for Linux
+# homepage	: http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=linux-firmware
+version=20191215
+release=1
+options="!strip"
+source="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make DESTDIR=$PKG install
+	#rm $PKG/lib/firmware/{Makefile,README,configure,GPL-3,*.txt,check_whence.py}
+}

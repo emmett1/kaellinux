@@ -1,0 +1,8 @@
+#
+# /etc/scratchpkg.repo : scratchpkg repo file
+#
+# format:
+#    <repo directory> <repo url for sync>
+#
+
+/usr/ports/core      https://raw.githubusercontent.com/emmett1/kaellinux/master/ports

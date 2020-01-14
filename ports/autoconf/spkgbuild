@@ -1,0 +1,26 @@
+# description	: Programs for producing shell scripts that can automatically configure source code
+# homepage	: https://www.gnu.org/software/autoconf
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gawk diffutils m4 bash
+
+name=autoconf
+version=2.69
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	config.sub
+	config.guess"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+		cp $SRC/config.sub $name-$version/build-aux
+		cp $SRC/config.guess $name-$version/build-aux
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+}

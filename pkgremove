@@ -1,0 +1,22 @@
+#!/bin/sh
+
+[ "$(id -u)" = 0 ] || {
+	echo "Need root access!"
+	exit 1
+}
+
+[ "$1" ] || {
+	echo "Script to remove installed ports from rootfs"
+	echo
+	echo "Usage:"
+	echo "   ./$(basename $0) <port>"
+	echo
+	exit 1
+}
+
+. ./pkgbuild.conf || {
+	echo "Failed sourcing config file."
+	exit 1
+}
+
+pkgdel --root=$ROOTFS $1

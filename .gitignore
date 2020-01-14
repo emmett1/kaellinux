@@ -1,0 +1,6 @@
+pkgbuild.conf
+work/
+rootfs/
+sources/
+packages/
+toolchain/

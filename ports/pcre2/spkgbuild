@@ -1,0 +1,30 @@
+# description	: New generation of the Perl Compatible Regular Expression libraries
+# homepage	: https://www.pcre.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=pcre2
+version=10.34
+release=1
+source="https://ftp.pcre.org/pub/pcre/$name-$version.tar.bz2"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+	./configure $flags \
+		    --prefix=/usr                       \
+	            --enable-unicode                    \
+		    --enable-jit                        \
+	            --enable-pcre2-16                   \
+	            --enable-pcre2-32                   \
+	            --enable-pcre2grep-libz             \
+	            --enable-pcre2grep-libbz2           \
+	            --enable-pcre2test-libreadline      \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}

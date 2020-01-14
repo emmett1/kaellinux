@@ -1,0 +1,31 @@
+# description	: Programs for basic and advanced IPV4-based networking
+# homepage	: https://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=iproute2
+version=5.4.0
+release=1
+source="https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz
+	musl-fixes.patch
+	avoid-arpd.patch"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	patch -Np1 -i $SRC/musl-fixes.patch
+	#patch -Np1 -i $SRC/avoid-arpd.patch
+
+	sed -i /ARPD/d Makefile
+	rm -fv man/man8/arpd.8
+	
+	sed -i 's/m_ipt.o//' tc/Makefile
+
+	./configure $flags \
+		--prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

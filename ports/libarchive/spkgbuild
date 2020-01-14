@@ -1,0 +1,25 @@
+# description	: Reading/writing various compression formats
+# homepage	: https://libarchive.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl xz lz4 bzip2
+
+name=libarchive
+version=3.4.1
+release=1
+source="https://github.com/libarchive/libarchive/releases/download/v$version/libarchive-$version.tar.gz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+  	./configure $flags \
+		--prefix=/usr \
+		--without-xml2 \
+		--without-nettle \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+pkgquery files $1 | while read -r line; do
+	case "$(file -bi /$line)" in
+		*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
+			for lib in $(ldd $line 2>/dev/null | awk '{print $3}' | sed '/^$/d'); do
+				case $lib in
+					ldd|/lib/ld-musl-x86_64.so.1) continue ;;
+				esac
+				pkg="$(pkgquery provide $lib$ | awk '{print $1}')"
+				case $pkg in
+					$1) continue ;;
+				esac
+				if [ ! $(echo $done | tr ' ' '\n' | grep -x $pkg) ]; then
+					echo $pkg
+					done="$done $pkg"
+				fi
+			done ;;
+	esac
+done

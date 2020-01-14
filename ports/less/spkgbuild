@@ -1,0 +1,21 @@
+# description	: A text file viewer
+# homepage	: http://www.greenwoodsoftware.com/less
+# maintainer	: daemonbsd56
+# depends	: ncurses
+
+name=less
+version=551
+release=1
+source="http://www.greenwoodsoftware.com/$name/$name-$version.tar.gz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

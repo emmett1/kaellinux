@@ -1,0 +1,27 @@
+# description	: Utility and a library used for transferring files
+# homepage	: https://curl.haxx.se/
+# maintainer    : Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: ca-certificates libressl nghttp2
+
+name=curl
+version=7.68.0
+release=1
+source="https://curl.haxx.se/download/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+  	./configure $flags \
+		--prefix=/usr \
+	        --disable-static \
+	        --enable-threaded-resolver \
+		--with-nghttp2 \
+		--with-ca-path=/etc/ssl/certs \
+		ac_cv_sizeof_off_t=8
+	make
+	make DESTDIR=$PKG install
+}

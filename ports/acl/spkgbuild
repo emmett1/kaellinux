@@ -1,0 +1,34 @@
+# description	: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# homepage	: http://savannah.nongnu.org/projects/acl
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: attr
+
+name=acl
+version=2.2.53
+release=1
+source="https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags \
+		    --prefix=/usr    \
+	            --bindir=/bin    \
+	            --disable-static \
+		    --disable-nls    \
+	            --libexecdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libacl.so
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libacl.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libacl.so) $PKG/usr/lib/libacl.so
+
+	rm -fr $PKG/usr/share/doc
+}

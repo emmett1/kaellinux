@@ -1,0 +1,39 @@
+# description	: Utilities for handling file systems, consoles, partitions, and messages
+# depends	: coreutils shadow
+
+name=util-linux
+version=2.34
+release=1
+source="https://www.kernel.org/pub/linux/utils/$name/v${version::4}/$name-$version.tar.xz
+	fix-musl.patch"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+		export LDFLAGS="$LDFLAGS -L$ROOTFS/usr/lib/"
+	fi
+	cd $name-$version
+
+	patch -Np0 -i $SRC/fix-musl.patch
+
+	mkdir -pv $PKG/var/lib/hwclock
+
+	./configure $flags \
+		    ADJTIME_PATH=/var/lib/hwclock/adjtime   \
+	            --disable-chfn-chsh  \
+	            --disable-login      \
+	            --disable-nologin    \
+	            --disable-su         \
+	            --disable-setpriv    \
+	            --disable-runuser    \
+	            --disable-pylibmount \
+	            --disable-static     \
+	            --without-python     \
+	            --without-systemd    \
+		    --disable-nls        \
+	            --without-systemdsystemunitdir
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}

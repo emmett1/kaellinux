@@ -1,0 +1,23 @@
+# description	: Programs for generating Makefiles for use with Autoconf
+# homepage	: https://www.gnu.org/software/autoconf
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: bash perl autoconf
+
+name=automake
+version=1.16.1
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{{info,doc},aclocal/README}
+}

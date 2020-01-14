@@ -1,0 +1,25 @@
+# description	: Utility for determining the type of a given file or files
+# homepage	: https://www.darwinsys.com/file/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: zlib
+
+name=file
+version=5.38
+release=1
+source="ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	./configure $flags \
+		--prefix=/usr \
+		--enable-fsect-man5 \
+                --enable-static \
+                --disable-libseccomp
+	make
+	make DESTDIR=$PKG install
+}

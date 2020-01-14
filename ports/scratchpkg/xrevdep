@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for i in /lib/*.so* /usr/lib/*.so* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
+	case "$(file -bi $i)" in
+		*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
+			ldd $i &>/dev/null || pkgquery provide $i$ ;;
+	esac
+done

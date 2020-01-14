@@ -1,0 +1,23 @@
+# description	: Collection of libraries providing APIs to netlink protocol based Linux kernel interfaces
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=libnl
+version=3.5.0
+release=1
+source="https://github.com/thom311/libnl/releases/download/${name}${version//./_}/$name-$version.tar.gz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+		CFLAGS="-L$ROOTFS/usr/lib $CFLAGS"
+	fi
+
+	cd $name-$version
+
+  	./configure $flags \
+		--prefix=/usr     \
+	        --sysconfdir=/etc \
+	        --disable-static
+	make
+	make DESTDIR=$PKG install
+}

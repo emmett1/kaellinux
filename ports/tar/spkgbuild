@@ -1,0 +1,28 @@
+# description	: An archiving program
+# homepage	: https://www.gnu.org/software/tar/tar.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl attr
+
+name=tar
+version=1.32
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	FORCE_UNSAFE_CONFIGURE=1  \
+	./configure $flags \
+		    --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
+	            --bindir=/bin \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
+}

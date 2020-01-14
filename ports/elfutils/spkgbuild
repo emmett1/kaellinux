@@ -1,0 +1,23 @@
+# description	: utilities and libraries for handling ELF files
+# depends	: musl-fts libuargp
+
+name=elfutils
+version=0.176
+release=1
+source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2
+	0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
+	cd $name-$version
+
+	patch -Np1 -i ../0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+
+	autoreconf -if
+	CFLAGS="$CFLAGS -Wno-error" ./configure $flags --prefix=/usr --program-prefix="eu-" --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

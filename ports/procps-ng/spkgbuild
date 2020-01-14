@@ -1,0 +1,35 @@
+# description	: Programs for monitoring processes
+# homepage	: https://gitlab.com/procps-ng/procps
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses
+
+name=procps-ng
+version=3.3.16
+release=1
+source="https://sourceforge.net/projects/procps-ng/files/Production/$name-$version.tar.xz"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST ac_cv_func_malloc_0_nonnull=yes ac_cv_func_realloc_0_nonnull=yes"
+		#sed -i '/AC_FUNC_MALLOC/d' $name-$version/configure.ac
+	fi
+
+	cd $name-$version
+
+	autoreconf -fiv
+	./configure $flags \
+		    --prefix=/usr \
+	            --exec-prefix= \
+	            --libdir=/usr/lib \
+	            --disable-static \
+	            --disable-kill \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+
+	mkdir -pv $PKG/lib
+	mv -v $PKG/usr/lib/libprocps.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libprocps.so) $PKG/usr/lib/libprocps.so
+}

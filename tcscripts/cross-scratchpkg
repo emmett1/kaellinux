@@ -1,0 +1,9 @@
+name=scratchpkg
+version=0.1
+source="https://github.com/venomlinux/scratchpkg/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	install -d $TCDIR/bin
+	install -m755 pkgadd pkgdel pkgbuild $TCDIR/bin
+}

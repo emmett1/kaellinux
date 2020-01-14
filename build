@@ -1,0 +1,185 @@
+#!/bin/bash
+
+fetch() {
+	filename=$(basename $1)
+	url=$1
+	wgetcmd="wget --passive-ftp --tries=3 --waitretry=3 --output-document=$SRCDIR/$filename.part"
+	
+	if [ ! -f $SRCDIR/$filename ]; then
+		[[ -f $SRCDIR/$filename.part ]] && resume="-c"
+		$wgetcmd $resume $url && \
+			mv $SRCDIR/$filename.part $SRCDIR/$filename
+	fi
+}
+
+unpack() {
+	rm -fr "$BUILDDIR/$name"
+	mkdir -p "$BUILDDIR/$name"
+	for src in $source; do
+		filename=$(basename $src)
+		case $src in
+			*.tar|*.tar.gz|*.tar.Z|*.tgz|*.tar.bz2|*.tbz2|*.tar.xz|*.txz|*.tar.lzma|*.zip)
+				echo "extracting $filename..."
+				tar -xf "$SRCDIR/$filename" -C "$BUILDDIR/$name" || {
+					echo "failed extracting $filename"
+					exit 1
+				};;
+		esac
+	done
+}
+
+ports() {
+	[ "$1" ] || return 1
+	[ -f $ROOTFS/var/lib/scratchpkg/index/$1/.pkginfo ] && {
+		echo "Ports '$1' is installed."
+		return 0
+	}
+	sudo mkdir -p $ROOTFS/var/lib/scratchpkg/index
+	[ -f $PORTSDIR/$1/spkgbuild ] || {
+		echo "Ports '$1' not exist."
+		return 1
+	}
+	cd $PORTSDIR/$1
+	rm -f .checksums .pkgfiles
+	settermtitle "Building '$1'..."
+	fakeroot pkgbuild --config=$PKGBUILDCONF || return $?
+	settermtitle "Building '$1' completed"
+	sudo pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?
+	cd - >/dev/null
+}
+
+cross_compiler() {
+	[ "$1" ] || return 1
+	
+	[ -f $TCDIR/$1 ] && {
+		echo "Cross toolchain for '$1' is built."
+		return 0
+	}
+	
+	source $TCSCRIPTDIR/$1
+	if [ "$source" ]; then
+		for src in $source; do
+			fetch $src
+		done
+	fi
+
+	unpack || {
+		echo "Failed to unpack '$(basename $source)'."
+		return 1
+	}
+	
+	cd "$BUILDDIR/$name"
+
+	if [ "$(type -t build)" = "function" ]; then
+		settermtitle "Building '$1'..."
+		(set -e; set -x; build)
+		if [ "$?" != 0 ]; then
+			settermtitle "Building '$1' failed"
+			echo "'build' failed"
+			return 1
+		else
+			settermtitle "Building '$1' completed"
+			echo "=> Cross toolchain build for '$name-$version' completed."
+			touch "$TCDIR/$1"
+			rm -fr "$BUILDDIR/$name"
+		fi
+	fi
+	
+	cd - >/dev/null
+}
+
+settermtitle() {
+	echo -en "\033]0;$*\a"
+}
+
+setup_pkgbuildconf() {
+	cat << EOF > pkgbuild.conf
+export HOST="$HOST"
+export TARGET="$TARGET"
+export CARCH="$CARCH"
+
+export CC="$TARGET-gcc"
+export CXX="$TARGET-g++"
+export AR="$TARGET-ar"
+export AS="$TARGET-as"
+export RANLIB="$TARGET-ranlib"
+export LD="$TARGET-ld"
+export STRIP="$TARGET-strip"
+
+export TCDIR="$TCDIR"
+export PATH=$PATH
+
+export ROOTFS="$ROOTFS"
+
+export PKG_CONFIG_PATH="$ROOTFS/usr/lib/pkgconfig:$ROOTFS/usr/share/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="$ROOTFS"
+
+BOOTSTRAP=1
+
+MAKEFLAGS="$MAKEFLAGS"
+CFLAGS="$CFLAGS"
+CXXFLAGS="$CXXFLAGS"
+
+SOURCE_DIR="$SRCDIR"
+PACKAGE_DIR="$PKGDIR"
+WORK_DIR="$BUILDDIR"
+EOF
+}
+
+parse_opts() {
+	while [ "$1" ]; do
+		case $1 in
+			--jobs=*) JOBS=${1#*=};;
+			--rootfs=*) ROOTFS=${1#*=};;
+			--pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
+		esac
+		shift
+	done
+}
+
+parse_opts "$@"
+
+BUILDROOT=$(pwd)
+TCDIR="$BUILDROOT/toolchain"
+SRCDIR="$BUILDROOT/sources"
+PKGDIR="$BUILDROOT/packages"
+PORTSDIR="$BUILDROOT/ports"
+BUILDDIR="$BUILDROOT/work"
+ROOTFS="${ROOTFS:-$BUILDROOT/rootfs}"
+TCSCRIPTDIR="$BUILDROOT/tcscripts"
+PKGBUILDCONF="${PKGBUILDCONF:-$BUILDROOT/pkgbuild.conf}"
+JOBS="${JOBS:-$(nproc)}"
+
+export PATH="$TCDIR/bin:$PATH"
+
+export CARCH="$(uname -m)"
+export TARGET="$CARCH-linux-musl"
+export HOST="$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")"
+
+export MAKEFLAGS="-j$JOBS"
+export CFLAGS="-O2 -march=x86-64 -pipe"
+export CXXFLAGS="${CFLAGS}"
+
+mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
+
+cross_toolchain="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2"
+base_system="
+	filesystem man-pages musl zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
+	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl intltool
+	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
+	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
+	sysklogd eudev libarchive ca-certificates nghttp2 curl httpup scratchpkg runit runit-bootscripts"
+extra="dhcpcd linux-firmware libnl wpa_supplicant fuse2 grub mkinitramfs linux"
+
+setup_pkgbuildconf
+
+for b in $cross_toolchain $base_system $extra; do
+	case $b in
+		cross-*) cross_compiler $b || exit $?;;
+		      *) ports $b || exit $?;;
+	esac
+done
+
+settermtitle "Building 'Kael Linux' completed"
+
+exit 0

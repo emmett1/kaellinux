@@ -1,0 +1,17 @@
+name=binutils
+version=2.33.1
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	../configure --prefix="$TCDIR" --target="$TARGET" \
+                  --with-sysroot="$ROOTFS" \
+                  --disable-nls --disable-multilib
+	make configure-host
+	make
+	make install	
+}
