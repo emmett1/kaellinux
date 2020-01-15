@@ -2,10 +2,10 @@
 8dae1a1bd7394619836eed4edb32706a  group
 c1584d0740d5d3cabcf0ac28cf65f151  hostname
 73b50995f63c6d88f5137db0759d6e92  hosts
-07cb846ef8d3bf5adf7773ed59fcc0ef  issue
+7e97bf6b1fc28b2283b281cb1fc26970  issue
 5cbb5efc6adba814bafb91e534b09836  locale.conf
 6336f6a759a3cff8a5f02daabf3c9be3  locale.sh
-b0b60263f018ef05a45889fe0e07f1a8  lsb-release
+59b6d29b9b3d4ac155e581fc648c66bc  lsb-release
 24a7c322e14b10976b3ab5e017bdd556  os-release
 aa116741c76ab220567c0771d2c7d718  passwd
 9a9dc18bed6ac58c8f9b5b36e9a948c9  profile
