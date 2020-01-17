@@ -40,9 +40,10 @@ ports() {
 		return 1
 	}
 	cd $PORTSDIR/$1
-	rm -f .checksums .pkgfiles
 	settermtitle "Building '$1'..."
 	fakeroot pkgbuild --config=$PKGBUILDCONF || return $?
+	fakeroot pkgbuild --config=$PKGBUILDCONF -g
+	fakeroot pkgbuild --config=$PKGBUILDCONF -p
 	settermtitle "Building '$1' completed"
 	sudo pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?
 	cd - >/dev/null
@@ -168,7 +169,7 @@ base_system="
 	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl intltool
 	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
-	sysklogd eudev libarchive ca-certificates nghttp2 curl httpup scratchpkg runit runit-bootscripts"
+	sysklogd eudev libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts"
 extra="dhcpcd linux-firmware libnl wpa_supplicant fuse2 grub mkinitramfs linux"
 
 setup_pkgbuildconf

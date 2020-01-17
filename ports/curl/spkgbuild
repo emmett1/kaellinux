@@ -19,7 +19,6 @@ build() {
 		--prefix=/usr \
 	        --disable-static \
 	        --enable-threaded-resolver \
-		--with-nghttp2 \
 		--with-ca-path=/etc/ssl/certs \
 		ac_cv_sizeof_off_t=8
 	make
