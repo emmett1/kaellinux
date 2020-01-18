@@ -166,7 +166,7 @@ mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
 cross_toolchain="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2"
 base_system="
 	filesystem man-pages musl zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
-	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils
+	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl
 	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
 	sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts base"
@@ -174,7 +174,7 @@ extra="linux-firmware fuse2 grub mkinitramfs linux"
 
 setup_pkgbuildconf
 
-for b in $cross_toolchain $base_system; do
+for b in $cross_toolchain $base_system $extra; do
 	case $b in
 		cross-*) cross_compiler $b || exit $?;;
 		      *) ports $b || exit $?;;

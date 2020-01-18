@@ -2,23 +2,31 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=20200112
+version=0.1
 release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/revdep.conf"
-_commit=44ecd4f074c9f67473e212e397d83d23c97d0cc4
-source="$name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
+source="https://github.com/venomlinux/scratchpkg/archive/$version/$name-$version.tar.gz
+	0b78bb986d1ab1bad693aa9faa7be499a973086d.patch
+	3b7a73c0d813c18cd21e13ab2e2d8876c1b6d62d.patch
+	b5733b2f8ff7c6d21eef07234c75b5303fbe8b01.patch
+	b6710e58c444337c4f09d54678e21c4dd3e04d9e.patch
 	scratchpkg.conf
 	xrevdep
 	xdep
+	xrebuild
 	repo"
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
+	for p in $SRC/*.patch; do
+		patch -Np1 -i $p
+	done
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m755 ../xrevdep $PKG/usr/bin/
 	install -m755 ../xdep $PKG/usr/bin/
+	install -m755 ../xrebuild $PKG/usr/bin/
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 	install -m644 $SRC/scratchpkg.conf $PKG/etc/scratchpkg.conf
 	rm $PKG/usr/bin/revdep

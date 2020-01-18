@@ -1,0 +1,26 @@
+From b5733b2f8ff7c6d21eef07234c75b5303fbe8b01 Mon Sep 17 00:00:00 2001
+From: emmett1 <emmett1.2miligrams@gmail.com>
+Date: Fri, 17 Jan 2020 22:59:54 +0800
+Subject: [PATCH] fix scratch_build
+
+---
+ scratch | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scratch b/scratch
+index 86d9fda..ca2f365 100755
+--- a/scratch
++++ b/scratch
+@@ -477,10 +477,11 @@ scratch_build() {
+ 		return 1
+ 	}
+ 	for pkg in $PKGNAME; do
+-		cd $(getportpath $pkg) || {
++		ppath=$(getportpath $pkg) || {
+ 			echo "Package '$pkg' not found."
+ 			return 1
+ 		}
++		cd $ppath
+ 		settermtitle "Building $pkg..."
+ 		pkgbuild $OPTS || {
+ 			settermtitle "Building $pkg failed."
