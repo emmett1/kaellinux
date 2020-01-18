@@ -161,7 +161,7 @@ drwxr-xr-x root/root etc/pki/nssdb/
 -rw-r--r-- root/root etc/pki/nssdb/pkcs11.txt
 drwxr-xr-x root/root etc/ssl/
 -rw-r--r-- root/root etc/ssl/ca-bundle.crt
--rwxr-xr-x root/root etc/ssl/certdata.txt
+-rw-r--r-- root/root etc/ssl/certdata.txt
 drwxr-xr-x root/root etc/ssl/certs/
 lrwxrwxrwx root/root etc/ssl/certs/02265526.0
 -rw-r--r-- root/root etc/ssl/certs/02265526.pem

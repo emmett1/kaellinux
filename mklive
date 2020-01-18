@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+msg() {
+	echo "=> $*"
+}
+
 chroot_run() {
 	mount_pseudofs
 	cp -L /etc/resolv.conf $ROOTFS/etc/
@@ -25,6 +29,95 @@ umount_pseudofs() {
 	umount $ROOTFS/sys &>/dev/null
 }
 
+make_efiboot() {
+	msg "Setup efiboot..."
+	
+	mkdir -p "$LIVEWDIR"/boot/{grub/{fonts,x86_64-efi},EFI}
+	
+	if [ -f /usr/share/grub/unicode.pf2 ];then
+		cp /usr/share/grub/unicode.pf2 "$LIVEWDIR"/boot/grub/fonts
+	fi
+	if [ -f "$FILESDIR"/isolinux/splash.png ]; then
+		cp "$FILESDIR"/isolinux/splash.png "$LIVEWDIR"/boot/grub/
+	fi
+	
+	echo "set prefix=/boot/grub" > "$LIVEWDIR"/boot/grub-early.cfg
+	cp -a /usr/lib/grub/x86_64-efi/*.{mod,lst} "$LIVEWDIR"/boot/grub/x86_64-efi
+	cp "$FILESDIR"/grub.cfg "$LIVEWDIR"/boot/grub/
+
+	grub-mkimage \
+		-c "$LIVEWDIR"/boot/grub-early.cfg \
+		-o "$LIVEWDIR"/boot/EFI/bootx64.efi \
+		-O x86_64-efi \
+		-p "" iso9660 normal search search_fs_file
+		
+	modprobe loop
+	dd if=/dev/zero of="$LIVEWDIR"/boot/efiboot.img count=4096
+	mkdosfs -n KAELLIVECD-UEFI "$LIVEWDIR"/boot/efiboot.img
+	mkdir -p "$EFIBOOTDIR"
+	mount -o loop "$LIVEWDIR"/boot/efiboot.img "$EFIBOOTDIR"
+	mkdir -p "$EFIBOOTDIR"/EFI/boot
+	cp "$LIVEWDIR"/boot/EFI/bootx64.efi "$EFIBOOTDIR"/EFI/boot
+	
+	umount "$EFIBOOTDIR"
+	rm -fr "$EFIBOOTDIR"
+}
+
+make_iso() {	
+	msg "Making iso..."
+	rm -f $OUTPUT
+	xorriso -as mkisofs \
+		  -isohybrid-mbr "$FILESDIR"/isohdpfx.bin \
+		-c isolinux/boot.cat \
+		-b isolinux/isolinux.bin \
+		  -no-emul-boot \
+		  -boot-load-size 4 \
+		  -boot-info-table \
+		  -eltorito-alt-boot \
+		-e boot/efiboot.img \
+		  -no-emul-boot \
+		  -isohybrid-gpt-basdat \
+		  -volid $ISOLABEL \
+		-o $OUTPUT $LIVEWDIR
+}
+
+make_squashfs() {
+	msg "Squashing filesystem..."
+	mksquashfs $ROOTFS "$LIVEWDIR"/kael/root.sfs \
+			-b 1048576 -comp xz -Xdict-size 100% \
+			-e $ROOTFS/var/cache/scratchpkg/sources/* \
+			-e $ROOTFS/var/cache/scratchpkg/packages/* \
+			-e $ROOTFS/var/cache/scratchpkg/work/* \
+			-e $ROOTFS/tmp/* 2>/dev/null
+}
+
+make_initramfs() {
+	msg "Preparing initramfs..."
+	cp $ROOTFS/boot/vmlinuz-kael "$LIVEWDIR"/boot/vmlinuz
+	sed "s/@ISOLABEL@/$ISOLABEL/g" "$FILESDIR"/livecd.hook > $ROOTFS/usr/share/mkinitramfs/hooks/livecd.hook
+	kernver=$(file $ROOTFS/boot/vmlinuz-kael | cut -d ' ' -f9)
+	chroot_run mkinitramfs -k $kernver -a livecd -o /boot/initrd-kael.img
+	mv $ROOTFS/boot/initrd-kael.img "$LIVEWDIR"/boot/initrd
+}
+
+make_liveworkdir() {
+	isolinux_files="chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 menu.c32 libcom32.c32 poweroff.c32"
+	msg "Preparing iso workdir..."
+	rm -fr "$LIVEWDIR"
+	mkdir -p "$LIVEWDIR"/{kael,isolinux,boot}
+	for file in $isolinux_files; do
+		cp "$FILESDIR"/$file "$LIVEWDIR"/isolinux
+	done
+
+	cp "$FILESDIR"/isolinux.cfg "$LIVEWDIR"/isolinux
+	[ -d liverootfs ] && cp -Ra liverootfs "$LIVEWDIR"
+}
+
+cleaning() {
+	msg "Cleaning workdir..."
+	rm -fr "$LIVEWDIR"
+}
+
 BUILDROOT=$(pwd)
 SRCDIR="$BUILDROOT/sources"
 PKGDIR="$BUILDROOT/packages"
@@ -38,40 +131,15 @@ ISOLABEL="KAELLIVE"
 OUTPUT="kaellive.iso"
 LIVEWDIR="$BUILDDIR/live"
 FILESDIR="$BUILDROOT/files"
+EFIBOOTDIR="$BUILDDIR/efiboot"
 
-isolinux_files="chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 menu.c32 libcom32.c32 poweroff.c32"
+make_liveworkdir
+make_initramfs
+make_squashfs
+make_efiboot
+make_iso
+cleaning
 
-rm -fr "$LIVEWDIR"
-mkdir -p "$LIVEWDIR"/{kael,isolinux,boot}
-for file in $isolinux_files; do
-	cp "$FILESDIR"/$file "$LIVEWDIR"/isolinux
-done
+msg "Making iso done."
 
-cp "$FILESDIR"/isolinux.cfg "$LIVEWDIR"/isolinux
-[ -d liverootfs ] && cp -Ra liverootfs "$LIVEWDIR"
-
-mksquashfs $ROOTFS "$LIVEWDIR"/kael/root.sfs \
-		-b 1048576 -comp xz -Xdict-size 100% \
-		-e $ROOTFS/var/cache/scratchpkg/sources/* \
-		-e $ROOTFS/var/cache/scratchpkg/packages/* \
-		-e $ROOTFS/var/cache/scratchpkg/work/* \
-		-e $ROOTFS/tmp/* 2>/dev/null
-
-cp $ROOTFS/boot/vmlinuz-kael "$LIVEWDIR"/boot/vmlinuz
-sed "s/@ISOLABEL@/$ISOLABEL/g" "$FILESDIR"/livecd.hook > $ROOTFS/usr/share/mkinitramfs/hooks/livecd.hook
-kernver=$(file $ROOTFS/boot/vmlinuz-kael | cut -d ' ' -f9)
-chroot_run mkinitramfs -k $kernver -a livecd -o /boot/initrd-kael.img
-mv $ROOTFS/boot/initrd-kael.img "$LIVEWDIR"/boot/initrd
-
-rm -f $OUTPUT
-xorriso -as mkisofs \
-    -c isolinux/boot.cat \
-    -b isolinux/isolinux.bin \
-      -no-emul-boot \
-      -boot-load-size 4 \
-      -boot-info-table \
-      -no-emul-boot \
-      -volid $ISOLABEL \
-    -o $OUTPUT "$LIVEWDIR" 
-
-rm -fr "$LIVEWDIR"
+exit 0

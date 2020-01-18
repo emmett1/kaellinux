@@ -170,7 +170,7 @@ base_system="
 	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
 	sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts base"
-extra="linux-firmware fuse2 grub mkinitramfs linux"
+extra="linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-efi gpm links nnn"
 
 setup_pkgbuildconf
 

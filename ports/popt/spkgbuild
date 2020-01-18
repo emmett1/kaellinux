@@ -1,0 +1,24 @@
+# description	: Popt libraries which are used by some programs to parse command-line options
+# homepage	: http://rpm5.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=popt
+version=1.16
+release=1
+source="http://ftp.rpm.org/mirror/$name/$name-$version.tar.gz
+	config.sub
+	config.guess"
+
+build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+		cp $SRC/config.sub $name-$version/
+		cp $SRC/config.guess $name-$version/
+	fi
+
+	cd $name-$version
+
+	./configure $flags --prefix=/usr --disable-static --disable-nls
+	make
+	make DESTDIR=$PKG install
+}
