@@ -1,7 +1,7 @@
 # description	: An arbitrary precision numeric processing language
 # homepage	: https://www.gnu.org/software/bc/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: readline
+# depends	: readline ncurses
 
 name=bc
 version=1.07.1

@@ -1,6 +1,6 @@
 # description	: utilities for handling the ext2, ext3 and ext4 file system
 # homepage	: http://e2fsprogs.sourceforge.net/
-# depends	: bash bc
+# depends	: util-linux
 
 name=e2fsprogs
 version=1.45.4
@@ -31,7 +31,9 @@ build() {
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-libs
 
-	chmod -v u+w $PKG/usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+	for i in libcom_err libe2p libext2fs libss; do
+		chmod -v u+w $PKG/usr/lib/${i}.a
+	done
 
 	rm -r $PKG/usr/share/info
 }

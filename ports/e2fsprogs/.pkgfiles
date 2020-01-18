@@ -4,6 +4,8 @@ drwxr-xr-x root/root bin/
 -rwxr-xr-x root/root bin/lsattr
 -rwxr-xr-x root/root bin/mk_cmds
 drwxr-xr-x root/root etc/
+drwxr-xr-x root/root etc/cron.d/
+-rw-r--r-- root/root etc/cron.d/e2scrub_all
 -rw-r--r-- root/root etc/e2scrub.conf
 -rw-r--r-- root/root etc/mke2fs.conf
 drwxr-xr-x root/root lib/
@@ -33,8 +35,8 @@ hrwxr-xr-x root/root sbin/fsck.ext2
 hrwxr-xr-x root/root sbin/fsck.ext3
 -rwxr-xr-x root/root sbin/fsck.ext4
 -rwxr-xr-x root/root sbin/logsave
--rwxr-xr-x root/root sbin/mke2fs
-hrwxr-xr-x root/root sbin/mkfs.ext2
+hrwxr-xr-x root/root sbin/mke2fs
+-rwxr-xr-x root/root sbin/mkfs.ext2
 hrwxr-xr-x root/root sbin/mkfs.ext3
 hrwxr-xr-x root/root sbin/mkfs.ext4
 -rwxr-xr-x root/root sbin/resize2fs
@@ -62,6 +64,8 @@ drwxr-xr-x root/root usr/include/ss/
 -rw-r--r-- root/root usr/include/ss/ss.h
 -rw-r--r-- root/root usr/include/ss/ss_err.h
 drwxr-xr-x root/root usr/lib/
+drwxr-xr-x root/root usr/lib/e2fsprogs/
+-rwxr-xr-x root/root usr/lib/e2fsprogs/e2scrub_all_cron
 -rwxr-xr-x root/root usr/lib/e2initrd_helper
 -rw-r--r-- root/root usr/lib/libcom_err.a
 lrwxrwxrwx root/root usr/lib/libcom_err.so

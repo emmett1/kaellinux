@@ -9,9 +9,13 @@ source="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
 	linux-config"
 
 build() {
+	if [ "$BOOTSTRAP" ]; then
+		cross="ARCH=$CARCH CROSS_COMPILE=${TARGET}-"
+	fi
+
 	cd linux-$version
 
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- mrproper
+	make $cross mrproper
 
 	cp $SRC/linux-config ./.config
 
@@ -21,17 +25,17 @@ build() {
 	kernver=${version}$(grep CONFIG_LOCALVERSION= .config | cut -d '"' -f2)
 
 	#make menuconfig
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- olddefconfig
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- bzImage modules
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- INSTALL_MOD_PATH=$PKG modules_install
+	make $cross olddefconfig
+	make $cross bzImage modules
+	make $cross INSTALL_MOD_PATH=$PKG modules_install
 
 	mkdir -p $PKG/boot
 
 	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-kael
 	echo $kernver > $PKG/lib/modules/KERNELVERSION
 
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- clean
-	make ARCH=$CARCH CROSS_COMPILE=${TARGET}- prepare
+	make $cross clean
+	make $cross prepare
 
 	rm -rf $PKG/lib/firmware
 

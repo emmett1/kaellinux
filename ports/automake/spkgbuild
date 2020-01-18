@@ -19,5 +19,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{{info,doc},aclocal/README}
+	rm -r $PKG/usr/share/info \
+	      $PKG/usr/share/doc \
+	      $PKG/usr/share/aclocal/README
 }

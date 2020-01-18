@@ -33,5 +33,5 @@ build() {
 		     --with-lib-path=/usr/lib:/lib
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
-	rm -fr $PKG/usr/share/info
+	rm -r $PKG/usr/share/info
 }

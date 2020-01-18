@@ -1,7 +1,7 @@
 # description	: Utility and a library used for transferring files
 # homepage	: https://curl.haxx.se/
 # maintainer    : Emmett1, emmett1 dot 2miligrams at gmail dot com
-# depends	: ca-certificates libressl nghttp2
+# depends	: ca-certificates libressl zlib
 
 name=curl
 version=7.68.0

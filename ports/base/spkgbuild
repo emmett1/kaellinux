@@ -1,0 +1,17 @@
+# description	: Meta port for base system kael Linux
+# homepage	: https://github.com/emmett1/kaellinux
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: filesystem man-pages musl zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
+# depends	: gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils
+# depends	: autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
+# depends	: less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
+# depends	: sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts
+
+name=base
+version=20200118
+release=1
+
+build() {
+	mkdir -p $PKG/etc
+	echo "Kael Linux" > $PKG/etc/kael-linux
+}
