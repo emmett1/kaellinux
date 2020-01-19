@@ -1,5 +1,9 @@
 drwxr-xr-x root/root etc/
 -rw-r--r-- root/root etc/gpm-root.conf
+drwxr-xr-x root/root etc/sv/
+drwxr-xr-x root/root etc/sv/gpm/
+-rwxr-xr-x root/root etc/sv/gpm/run
+lrwxrwxrwx root/root etc/sv/gpm/supervise
 drwxr-xr-x root/root usr/
 drwxr-xr-x root/root usr/bin/
 -rwxr-xr-x root/root usr/bin/disable-paste

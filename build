@@ -41,8 +41,8 @@ ports() {
 	}
 	cd $PORTSDIR/$1
 	settermtitle "Building '$1'..."
-	fakeroot pkgbuild --config=$PKGBUILDCONF || return $?
 	fakeroot pkgbuild --config=$PKGBUILDCONF -g
+	fakeroot pkgbuild --config=$PKGBUILDCONF || return $?
 	fakeroot pkgbuild --config=$PKGBUILDCONF -p
 	settermtitle "Building '$1' completed"
 	sudo pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?

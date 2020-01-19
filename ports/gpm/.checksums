@@ -4,3 +4,4 @@ e6156ec93680fa0b624d0615bb2414cc  musl-gpm_h.patch
 aac38d44126a8862e0dd9bf260db6d28  musl-linux_major_h.patch
 fac9d29b96690ec8769019ed81f600f6  musl-select.patch
 eba9fd056b3bc90bc6e04da0307ac243  musl-sigaction.patch
+878a8b5d447c249adc612f1a2817ef74  run

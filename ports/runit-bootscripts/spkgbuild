@@ -1,5 +1,4 @@
 # description	: Runit bootscripts
-# backup	: etc/runit/rc.startup.local etc/runit/rc.shutdown.local etc/runit/runit.conf etc/runit/modules
 # depends	: runit procps-ng
 
 name=runit-bootscripts

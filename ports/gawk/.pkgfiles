@@ -1,8 +1,8 @@
 drwxr-xr-x root/root usr/
 drwxr-xr-x root/root usr/bin/
 lrwxrwxrwx root/root usr/bin/awk
-hrwxr-xr-x root/root usr/bin/gawk
--rwxr-xr-x root/root usr/bin/gawk-5.0.1
+-rwxr-xr-x root/root usr/bin/gawk
+hrwxr-xr-x root/root usr/bin/gawk-5.0.1
 drwxr-xr-x root/root usr/include/
 -rw-r--r-- root/root usr/include/gawkapi.h
 drwxr-xr-x root/root usr/lib/

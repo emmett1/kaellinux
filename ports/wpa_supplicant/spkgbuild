@@ -7,12 +7,12 @@ name=wpa_supplicant
 version=2.9
 release=1
 backup="etc/wpa_supplicant.conf
-	etc/conf.d/wpa"
+	etc/sv/$name/conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
 	patch-src_utils_eloop_c.diff
 	wpa_supplicant.conf
-	wpa_supplicant.rc
-	wpa.conf"
+	run
+	conf"
 
 build() {
 	cd $name-$version
@@ -64,7 +64,8 @@ EOF
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
-	# rc service
-	install -Dm755 $SRC/wpa_supplicant.rc $PKG/etc/rc.d/wpa_supplicant
-	install -Dm755 $SRC/wpa.conf $PKG/etc/conf.d/wpa
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+	install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
+	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }
