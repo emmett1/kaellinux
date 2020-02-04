@@ -12,34 +12,35 @@ EOF
 }
 
 msgerr() {
-	echo -e "ERROR: $@"
+	echo "ERROR: $@"
 }
 	
-if [ "$UID" != "0" ]; then
+[ "$(id -u)" = "0" ] || {
 	msgerr "$(basename $0) need root access!"
 	printhelp
 	exit 1
-fi
+}
 
 TARGET=$1
 
-if [ -z $1 ]; then
+[ "$1" ] || {
 	msgerr "Please set directory for chroot!"
 	printhelp
 	exit 1
-fi
+}
 
-if [ ! -d $TARGET ]; then
-	msgerr "Directory '$TARGET' not exist"
+[ -d "$TARGET" ] || {
+	msgerr "Directory '$TARGET' not exist!"
 	printhelp
 	exit 1
-fi
+}
 
 shift
 
-CMD=$@
-if [ -z $2 ]; then
+if [ ! "$1" ]; then
 	CMD="/bin/bash --login"
+else
+	CMD=$@
 fi
 
 if [ -e /sys/firmware/efi/systab ]; then
@@ -61,6 +62,10 @@ if [ -h $TARGET/dev/shm ]; then
   mkdir -p $TARGET/$(readlink $TARGET/dev/shm)
 fi
 
+[ -f $TARGET/etc/resolv.conf ] && {
+	backupresolvconf=1
+	mv $TARGET/etc/resolv.conf $TARGET/etc/resolv.conf.tmp
+}
 cp -L /etc/resolv.conf $TARGET/etc
 
 chroot "$TARGET" /usr/bin/env -i \
@@ -70,6 +75,10 @@ PS1='\u:\w\$ ' \
 PATH=/bin:/usr/bin:/sbin:/usr/sbin $CMD
 
 retval=$?
+
+[ "$backupresolvconf" = 1 ] && {
+	mv $TARGET/etc/resolv.conf.tmp $TARGET/etc/resolv.conf
+}
 
 popd &>/dev/null
 
