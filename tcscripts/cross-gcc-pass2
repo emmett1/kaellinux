@@ -1,14 +1,14 @@
 name=gcc
 version=9.2.0
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
-	https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz
+	https://ftp.gnu.org/gnu/gmp/gmp-6.2.0.tar.xz
 	https://www.mpfr.org/mpfr-4.0.2/mpfr-4.0.2.tar.xz
 	https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"
 
 build() {
 	cd $name-$version
 
-	mv ../gmp-6.1.2 gmp
+	mv ../gmp-6.2.0 gmp
 	mv ../mpfr-4.0.2 mpfr
 	mv ../mpc-1.1.0 mpc
 

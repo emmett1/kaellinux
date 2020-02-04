@@ -5,4 +5,6 @@ sources/
 packages/
 toolchain/
 *.iso
-
+error
+outdate
+*.tar.xz

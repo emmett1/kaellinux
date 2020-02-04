@@ -1,2 +1,7 @@
-2b48df4cc0eb074e304f6a6059e15a00  0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
-077e4f49320cad82bf17a997068b1db9  elfutils-0.176.tar.bz2
+6bc8334fcbde2366657da66c8fb14bb0  0006-Fix-build-on-aarch64-musl.patch
+5480d0b7174446aba13a6adde107287f  elfutils-0.178.tar.bz2
+ed0f19a031b8582f498064b8d6799366  fts.patch
+dd3fa500aa72ad0cb89ee6e7e1825bef  musl-libs.patch
+8ebc717294273f2f6f9195e9fb4bfa93  musl-tests.patch
+5adad59ee67d430138d79865dfe83a76  musl-utils.patch
+04617483957dd2d7208ce07f1a3c1edf  no-werror.patch

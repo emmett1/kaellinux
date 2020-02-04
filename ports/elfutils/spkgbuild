@@ -2,10 +2,15 @@
 # depends	: musl-fts libuargp
 
 name=elfutils
-version=0.176
+version=0.178
 release=1
 source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2
-	0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
+	0006-Fix-build-on-aarch64-musl.patch
+	fts.patch
+	musl-libs.patch
+	musl-tests.patch
+	musl-utils.patch
+	no-werror.patch"
 
 build() {
 	if [ "$BOOTSTRAP" ]; then
@@ -14,10 +19,25 @@ build() {
 
 	cd $name-$version
 
-	patch -Np1 -i ../0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+	for i in $SRC/*.patch; do
+		patch -Np1 -i $i
+	done
 
 	autoreconf -if
-	CFLAGS="$CFLAGS -Wno-error" ./configure $flags --prefix=/usr --program-prefix="eu-" --disable-nls
-	make
-	make DESTDIR=$PKG install
+	CFLAGS="$CFLAGS -Wno-error" \
+	./configure $flags \
+		--prefix=/usr \
+		--program-prefix="eu-" \
+		--disable-debuginfod \
+		--disable-nls
+	for lib in lib libelf libdwfl libdwelf libebl libcpu backends libdw; do
+		make -C $lib
+	done
+
+	make -C libelf DESTDIR="$PKG" install
+	make -C libdw DESTDIR="$PKG" install
+
+	mkdir -p "$PKG"/usr/lib/pkgconfig
+	cp config/libelf.pc "$PKG"/usr/lib/pkgconfig
+	cp config/libdw.pc "$PKG"/usr/lib/pkgconfig
 }

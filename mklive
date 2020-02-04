@@ -84,7 +84,7 @@ make_iso() {
 make_squashfs() {
 	msg "Squashing filesystem..."
 	mksquashfs $ROOTFS "$LIVEWDIR"/kael/root.sfs \
-			-b 1048576 -comp xz -Xdict-size 100% \
+			-b 1048576 -comp zstd \
 			-e $ROOTFS/var/cache/scratchpkg/sources/* \
 			-e $ROOTFS/var/cache/scratchpkg/packages/* \
 			-e $ROOTFS/var/cache/scratchpkg/work/* \
@@ -116,6 +116,11 @@ make_liveworkdir() {
 cleaning() {
 	msg "Cleaning workdir..."
 	rm -fr "$LIVEWDIR"
+}
+
+[ "$(id -u)" = 0 ] || {
+	msg "Need root access!"
+	exit 1
 }
 
 BUILDROOT=$(pwd)

@@ -15,7 +15,7 @@ build() {
 
 	cd $name-$version
 
-	./configure $flags --prefix=/usr --disable-nls
+	./configure $flags --prefix=/usr --disable-nls --disable-bootstrap --disable-shared
 	make
 	make DESTDIR=$PKG install
 
