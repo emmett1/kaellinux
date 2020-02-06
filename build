@@ -42,32 +42,21 @@ unpack() {
 
 ports() {
 	[ "$1" ] || return 1
-	[ -f $ROOTFS/var/lib/scratchpkg/index/$1/.pkginfo ] && {
-		msg2 "Ports '$1' is installed."
-		return 0
-	}
-	sudo mkdir -p $ROOTFS/var/lib/scratchpkg/index
-	[ -f $PORTSDIR/$1/spkgbuild ] || {
+	[ -f "$ROOTFS/var/lib/scratchpkg/index/$1/.pkginfo" ] && return 0
+	
+	mkdir -p $ROOTFS/var/lib/scratchpkg/index
+	[ -f "$PORTSDIR/$1/spkgbuild" ] || {
 		msgerr "Ports '$1' not exist."
 		return 1
 	}
 	cd $PORTSDIR/$1
-	settermtitle "Building '$1'..."
-	fakeroot pkgbuild --config=$PKGBUILDCONF -g
-	fakeroot pkgbuild --config=$PKGBUILDCONF || return $?
-	fakeroot pkgbuild --config=$PKGBUILDCONF -p
-	settermtitle "Building '$1' completed"
-	sudo pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?
+	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?
 	cd - >/dev/null
 }
 
 cross_compiler() {
 	[ "$1" ] || return 1
-	
-	[ -f $TCDIR/$1 ] && {
-		msg2 "Cross toolchain for '$1' is built."
-		return 0
-	}
+	[ -f "$TCDIR/$1" ] && return 0
 	
 	source $TCSCRIPTDIR/$1
 	if [ "$source" ]; then
@@ -139,12 +128,141 @@ WORK_DIR="$BUILDDIR"
 EOF
 }
 
+build_livecd() {
+	[ "$LIVE" = 1 ] || return 0
+	make_liveworkdir
+	make_initramfs
+	make_squashfs
+	make_efiboot
+	make_iso
+	cleaning
+}
+
+build_base() {
+	mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
+	
+	setup_pkgbuildconf
+
+	msg "Building base packages..."
+	for b in $cross_toolchain $base_system $extra; do
+		case $b in
+			cross-*) cross_compiler $b || exit $?;;
+				  *) ports $b || exit $?;;
+		esac
+	done
+
+	# copy ports to rootfs
+	msg "Copying ports..."
+	rm -fr $ROOTFS/usr/ports/core
+	mkdir -p $ROOTFS/usr/ports/core
+	cp -R ports/* $ROOTFS/usr/ports/core
+	rm -f $ROOTFS/usr/ports/core/{REPO,.httpup-repgen-ignore}
+	rm -f $ROOTFS/usr/ports/core/*/update
+
+	##msg "Running xrevdep..."
+	##xchroot $ROOTFS xrevdep
+}
+
+chroot_run() {
+	xchroot $ROOTFS $@
+}
+
+make_efiboot() {
+	msg "Setup efiboot..."
+	
+	mkdir -p "$LIVEWDIR"/boot/{grub/{fonts,x86_64-efi},EFI}
+	
+	if [ -f /usr/share/grub/unicode.pf2 ];then
+		cp /usr/share/grub/unicode.pf2 "$LIVEWDIR"/boot/grub/fonts
+	fi
+	if [ -f "$FILESDIR"/isolinux/splash.png ]; then
+		cp "$FILESDIR"/isolinux/splash.png "$LIVEWDIR"/boot/grub/
+	fi
+	
+	echo "set prefix=/boot/grub" > "$LIVEWDIR"/boot/grub-early.cfg
+	cp -a /usr/lib/grub/x86_64-efi/*.{mod,lst} "$LIVEWDIR"/boot/grub/x86_64-efi
+	cp "$FILESDIR"/grub.cfg "$LIVEWDIR"/boot/grub/
+
+	grub-mkimage \
+		-c "$LIVEWDIR"/boot/grub-early.cfg \
+		-o "$LIVEWDIR"/boot/EFI/bootx64.efi \
+		-O x86_64-efi \
+		-p "" iso9660 normal search search_fs_file
+		
+	modprobe loop
+	dd if=/dev/zero of="$LIVEWDIR"/boot/efiboot.img count=4096
+	mkdosfs -n KAELLIVECD-UEFI "$LIVEWDIR"/boot/efiboot.img
+	mkdir -p "$EFIBOOTDIR"
+	mount -o loop "$LIVEWDIR"/boot/efiboot.img "$EFIBOOTDIR"
+	mkdir -p "$EFIBOOTDIR"/EFI/boot
+	cp "$LIVEWDIR"/boot/EFI/bootx64.efi "$EFIBOOTDIR"/EFI/boot
+	
+	umount "$EFIBOOTDIR"
+	rm -fr "$EFIBOOTDIR"
+}
+
+make_iso() {	
+	msg "Making iso..."
+	rm -f $OUTPUT
+	xorriso -as mkisofs \
+		  -isohybrid-mbr "$FILESDIR"/isohdpfx.bin \
+		-c isolinux/boot.cat \
+		-b isolinux/isolinux.bin \
+		  -no-emul-boot \
+		  -boot-load-size 4 \
+		  -boot-info-table \
+		  -eltorito-alt-boot \
+		-e boot/efiboot.img \
+		  -no-emul-boot \
+		  -isohybrid-gpt-basdat \
+		  -volid $ISOLABEL \
+		-o $OUTPUT $LIVEWDIR
+}
+
+make_squashfs() {
+	msg "Squashing filesystem..."
+	mksquashfs $ROOTFS "$LIVEWDIR"/kael/root.sfs \
+		-b 1048576 -comp zstd \
+		-e $ROOTFS/var/cache/scratchpkg/sources/* \
+		-e $ROOTFS/var/cache/scratchpkg/packages/* \
+		-e $ROOTFS/var/cache/scratchpkg/work/* \
+		-e $ROOTFS/tmp/* 2>/dev/null
+}
+
+make_initramfs() {
+	msg "Preparing initramfs..."
+	cp $ROOTFS/boot/vmlinuz-kael "$LIVEWDIR"/boot/vmlinuz
+	sed "s/@ISOLABEL@/$ISOLABEL/g" "$FILESDIR"/livecd.hook > $ROOTFS/usr/share/mkinitramfs/hooks/livecd.hook
+	kernver=$(file $ROOTFS/boot/vmlinuz-kael | cut -d ' ' -f9)
+	chroot_run mkinitramfs -k $kernver -a livecd -o /boot/initrd-kael.img
+	mv $ROOTFS/boot/initrd-kael.img "$LIVEWDIR"/boot/initrd
+}
+
+make_liveworkdir() {
+	isolinux_files="chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 menu.c32 libcom32.c32 poweroff.c32"
+	msg "Preparing iso workdir..."
+	rm -fr "$LIVEWDIR"
+	mkdir -p "$LIVEWDIR"/{kael,isolinux,boot}
+	for file in $isolinux_files; do
+		cp "$FILESDIR"/$file "$LIVEWDIR"/isolinux
+	done
+
+	cp "$FILESDIR"/isolinux.cfg "$LIVEWDIR"/isolinux
+	[ -d liverootfs ] && cp -Ra liverootfs "$LIVEWDIR"
+}
+
+cleaning() {
+	msg "Cleaning workdir..."
+	rm -fr "$LIVEWDIR"
+}
+
 parse_opts() {
 	while [ "$1" ]; do
 		case $1 in
-			--jobs=*) JOBS=${1#*=};;
-			--rootfs=*) ROOTFS=${1#*=};;
-			--pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
+			-jobs=*) JOBS=${1#*=};;
+			-rootfs=*) ROOTFS=${1#*=};;
+			-pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
+			-liveiso) LIVE=1;;
 		esac
 		shift
 	done
@@ -163,7 +281,14 @@ TCSCRIPTDIR="$BUILDROOT/tcscripts"
 PKGBUILDCONF="${PKGBUILDCONF:-$BUILDROOT/pkgbuild.conf}"
 JOBS="${JOBS:-$(nproc)}"
 
-export PATH="$TCDIR/bin:$PATH"
+# live iso
+ISOLABEL="KAELLIVE"
+OUTPUT="kaellive.iso"
+LIVEWDIR="$BUILDDIR/live"
+FILESDIR="$BUILDROOT/files"
+EFIBOOTDIR="$BUILDDIR/efiboot"
+
+export PATH="$TCDIR/bin:$BUILDROOT/utils:$PATH"
 
 export CARCH="$(uname -m)"
 export TARGET="$CARCH-linux-musl"
@@ -172,9 +297,6 @@ export HOST="$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/")"
 export MAKEFLAGS="-j$JOBS"
 export CFLAGS="-O2 -march=x86-64 -pipe"
 export CXXFLAGS="${CFLAGS}"
-
-mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
-sudo chown root:root "$ROOTFS"
 
 cross_toolchain="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2"
 base_system="
@@ -185,22 +307,12 @@ base_system="
 	sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts base"
 extra="linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-efi gpm links nnn lzo lz4 zstd squashfs-tools"
 
-setup_pkgbuildconf
+[ "$(id -u)" = 0 ] || {
+	msg "Need root access!"
+	exit 1
+}
 
-for b in $cross_toolchain $base_system $extra; do
-	case $b in
-		cross-*) cross_compiler $b || exit $?;;
-		      *) ports $b || exit $?;;
-	esac
-done
-
-# copy ports to rootfs
-sudo rm -fr $ROOTFS/usr/ports/core
-sudo mkdir -p $ROOTFS/usr/ports/core
-sudo cp -R ports/* $ROOTFS/usr/ports/core
-sudo rm -f $ROOTFS/usr/ports/core/{REPO,.httpup-repgen-ignore}
-sudo rm -f $ROOTFS/usr/ports/core/*/update
-
-settermtitle "Building 'Kael Linux' completed"
+build_base
+build_livecd
 
 exit 0
