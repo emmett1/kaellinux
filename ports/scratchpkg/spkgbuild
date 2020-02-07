@@ -8,6 +8,9 @@ backup="etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/revdep.conf"
 source="https://github.com/venomlinux/scratchpkg/archive/$version/$name-$version.tar.gz
+	https://github.com/venomlinux/scratchpkg/commit/5eeb974b1748976f942d526c4402de57b734b4a6.patch
+	https://github.com/venomlinux/scratchpkg/commit/0a9cfce26a1167a89b426a542734b95ed7b3a5c0.patch
+	https://github.com/venomlinux/scratchpkg/commit/2e26f7c2f06c6397266c9f112c49c93003cc4b7b.patch
 	scratchpkg.conf
 	xrevdep
 	xdep
@@ -16,6 +19,9 @@ source="https://github.com/venomlinux/scratchpkg/archive/$version/$name-$version
 
 build() {
 	cd $name-$version
+	patch -Np1 -i $SRC/2e26f7c2f06c6397266c9f112c49c93003cc4b7b.patch
+	patch -Np1 -i $SRC/5eeb974b1748976f942d526c4402de57b734b4a6.patch
+	patch -Np1 -i $SRC/0a9cfce26a1167a89b426a542734b95ed7b3a5c0.patch
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m755 ../xrevdep $PKG/usr/bin/
 	install -m755 ../xdep $PKG/usr/bin/

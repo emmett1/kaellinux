@@ -18,7 +18,10 @@ build() {
 
 	autoreconf -fi
 	./configure $flags \
-		--prefix=/usr
+		--prefix=/usr \
+		--sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
+
+	rm $PKG/etc/ssl/cert.pem
 }

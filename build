@@ -50,7 +50,11 @@ ports() {
 		return 1
 	}
 	cd $PORTSDIR/$1
-	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || return $?
+	settermtitle "Building '$1'..."
+	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || {
+		settermtitle "Building '$1' failed."
+		return $?
+	}
 	cd - >/dev/null
 }
 
@@ -74,7 +78,7 @@ cross_compiler() {
 
 	if [ "$(type -t build)" = "function" ]; then
 		settermtitle "Building '$1'..."
-		(set -e; set -x; build)
+		(set -e -x; build 2>&1)
 		if [ "$?" != 0 ]; then
 			settermtitle "Building '$1' failed"
 			msgerr "'build' failed"
@@ -159,8 +163,8 @@ build_base() {
 	rm -f $ROOTFS/usr/ports/core/{REPO,.httpup-repgen-ignore}
 	rm -f $ROOTFS/usr/ports/core/*/update
 
-	##msg "Running xrevdep..."
-	##xchroot $ROOTFS xrevdep
+	msg "Running xrevdep..."
+	xchroot $ROOTFS xrevdep
 }
 
 chroot_run() {
@@ -288,7 +292,7 @@ LIVEWDIR="$BUILDDIR/live"
 FILESDIR="$BUILDROOT/files"
 EFIBOOTDIR="$BUILDDIR/efiboot"
 
-export PATH="$TCDIR/bin:$BUILDROOT/utils:$PATH"
+export PATH="$TCDIR/bin:$PATH"
 
 export CARCH="$(uname -m)"
 export TARGET="$CARCH-linux-musl"
