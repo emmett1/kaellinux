@@ -4,7 +4,6 @@ source="https://www.musl-libc.org/releases/musl-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
 	CC="${TARGET}-gcc" ./configure --prefix=/ --target="$TARGET"
 	CC="${TARGET}-gcc" make
 	make DESTDIR="$TCDIR/$TARGET" install

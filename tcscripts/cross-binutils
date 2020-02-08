@@ -8,9 +8,12 @@ build() {
 	mkdir build
 	cd build
 
-	../configure --prefix="$TCDIR" --target="$TARGET" \
-                  --with-sysroot="$ROOTFS" \
-                  --disable-nls --disable-multilib
+	../configure \
+		--prefix="$TCDIR" \
+		--target="$TARGET" \
+		--with-sysroot="$ROOTFS" \
+		--disable-nls \
+		--disable-multilib
 	make configure-host
 	make
 	make install	

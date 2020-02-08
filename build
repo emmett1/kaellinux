@@ -134,6 +134,7 @@ EOF
 
 build_livecd() {
 	[ "$LIVE" = 1 ] || return 0
+	msg "Building liveiso..."
 	make_liveworkdir
 	make_initramfs
 	make_squashfs
@@ -260,16 +261,33 @@ cleaning() {
 	rm -fr "$LIVEWDIR"
 }
 
+build_rootfs() {
+	[ "$RFS" = 1 ] || return 0
+	rm -f "$BUILDROOT"/kaellinux-rootfs.tar.xz
+	pushd "$ROOTFS" >/dev/null
+		msg "Building rootfs image..."
+		tar -cvJpf "$BUILDROOT"/kaellinux-rootfs.tar.xz * 
+	popd >/dev/null
+}
+
 parse_opts() {
 	while [ "$1" ]; do
 		case $1 in
 			-jobs=*) JOBS=${1#*=};;
-			-rootfs=*) ROOTFS=${1#*=};;
+			-root=*) ROOTFS=${1#*=};;
 			-pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
 			-liveiso) LIVE=1;;
+			-rootfs) RFS=1;;
 		esac
 		shift
 	done
+}
+
+checkroot() {
+	[ "$(id -u)" = 0 ] || {
+		msg "Need root access!"
+		exit 1
+	}
 }
 
 parse_opts "$@"
@@ -303,20 +321,16 @@ export CFLAGS="-O2 -march=x86-64 -pipe"
 export CXXFLAGS="${CFLAGS}"
 
 cross_toolchain="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2"
-base_system="
-	filesystem man-pages musl tzdata zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
+base_system="filesystem man-pages musl tzdata zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
 	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl
 	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
 	sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts base"
 extra="linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-efi gpm links nnn lzo lz4 zstd squashfs-tools"
 
-[ "$(id -u)" = 0 ] || {
-	msg "Need root access!"
-	exit 1
-}
-
+checkroot
 build_base
 build_livecd
+build_rootfs
 
 exit 0

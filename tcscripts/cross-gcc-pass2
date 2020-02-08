@@ -1,16 +1,18 @@
 name=gcc
 version=9.2.0
+gmp_ver=6.2.0
+mpfr_ver=4.0.2
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
-	https://ftp.gnu.org/gnu/gmp/gmp-6.2.0.tar.xz
-	https://www.mpfr.org/mpfr-4.0.2/mpfr-4.0.2.tar.xz
-	https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"
+	https://ftp.gnu.org/gnu/gmp/gmp-$gmp_ver.tar.xz
+	https://www.mpfr.org/mpfr-$mpfr_ver/mpfr-$mpfr_ver.tar.xz
+	https://ftp.gnu.org/gnu/mpc/mpc-$mpc_ver.tar.gz"
 
 build() {
 	cd $name-$version
 
-	mv ../gmp-6.2.0 gmp
-	mv ../mpfr-4.0.2 mpfr
-	mv ../mpc-1.1.0 mpc
+	mv ../gmp-$gmp_ver gmp
+	mv ../mpfr-$mpfr_ver mpfr
+	mv ../mpc-$mpc_ver mpc
 
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
@@ -21,13 +23,24 @@ build() {
 	mkdir build
 	cd build
 
-	../configure --prefix="$TCDIR" --target="$TARGET" \
-                  --build="$HOST" --host="$HOST" --libexecdir="$TCDIR"/lib \
-                  --with-sysroot="$ROOTFS" --with-local-prefix="$ROOTFS" --with-native-system-header-dir="/usr/include" \
-                  --disable-nls --enable-languages=c,c++ \
-                  --enable-c99 --enable-long-long \
-                  --disable-libmudflap --disable-multilib \
-                  --disable-libmpx --disable-libssp --disable-libsanitizer
+	../configure \
+		--prefix="$TCDIR" \
+		--target="$TARGET" \
+		--build="$HOST" \
+		--host="$HOST" \
+		--libexecdir="$TCDIR"/lib \
+		--with-sysroot="$ROOTFS" \
+		--with-local-prefix="$ROOTFS" \
+		--with-native-system-header-dir="/usr/include" \
+		--disable-nls \
+		--enable-languages=c,c++ \
+		--enable-c99 \
+		--enable-long-long \
+		--disable-libmudflap \
+		--disable-multilib \
+		--disable-libmpx \
+		--disable-libssp \
+		--disable-libsanitizer
 	make
 	make install
 }
