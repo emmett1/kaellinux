@@ -46,5 +46,5 @@ build() {
 		--enable-languages=c \
 		--with-newlib
 	make all-gcc all-target-libgcc
-	make install-gcc install-target-libgcc
+	make -j1 install-gcc install-target-libgcc
 }

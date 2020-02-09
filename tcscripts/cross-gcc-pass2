@@ -2,6 +2,7 @@ name=gcc
 version=9.2.0
 gmp_ver=6.2.0
 mpfr_ver=4.0.2
+mpc_ver=1.1.0
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	https://ftp.gnu.org/gnu/gmp/gmp-$gmp_ver.tar.xz
 	https://www.mpfr.org/mpfr-$mpfr_ver/mpfr-$mpfr_ver.tar.xz
@@ -42,5 +43,5 @@ build() {
 		--disable-libssp \
 		--disable-libsanitizer
 	make
-	make install
+	make -j1 install
 }
