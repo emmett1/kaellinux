@@ -23,7 +23,7 @@ build() {
 	install -m755 ../xdep $PKG/usr/bin/
 	install -m755 ../xrebuild $PKG/usr/bin/
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
-	install -m644 $SRC/repo $PKG/etc/scratchpkg.alias
+	install -m644 $SRC/scratchpkg.alias $PKG/etc/scratchpkg.alias
 	install -m644 $SRC/scratchpkg.conf $PKG/etc/scratchpkg.conf
 	rm $PKG/usr/bin/revdep
 }

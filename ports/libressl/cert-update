@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# update-certdata.sh
+
+[ -w /etc/ssl ] || {
+	echo "${0##*/}: required root to update cert."
+	exit 1
+}
+
+curl -s -o /etc/ssl/cert.pem https://curl.haxx.se/ca/cacert.pem
+echo "${0##*/}: cert.pem updated."

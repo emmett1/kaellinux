@@ -1,7 +1,7 @@
 # description	: Utility and a library used for transferring files
 # homepage	: https://curl.haxx.se/
 # maintainer    : Emmett1, emmett1 dot 2miligrams at gmail dot com
-# depends	: ca-certificates libressl zlib
+# depends	: libressl zlib
 
 name=curl
 version=7.68.0
@@ -19,7 +19,7 @@ build() {
 		--prefix=/usr \
 	        --disable-static \
 	        --enable-threaded-resolver \
-		--with-ca-path=/etc/ssl/certs \
+		--with-ca-bundle=/etc/ssl/cert.pem \
 		ac_cv_sizeof_off_t=8
 	make
 	make DESTDIR=$PKG install

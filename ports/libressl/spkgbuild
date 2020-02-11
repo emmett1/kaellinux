@@ -6,7 +6,8 @@
 name=libressl
 version=3.0.2
 release=1
-source="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/$name-$version.tar.gz"
+source="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/$name-$version.tar.gz
+	cert-update"
 
 build() {
 	if [ "$BOOTSTRAP" ]; then
@@ -23,5 +24,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm $PKG/etc/ssl/cert.pem
+	install -m755 $SRC/cert-update $PKG/usr/bin/cert-update
 }

@@ -5,7 +5,7 @@
 # depends	: gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl
 # depends	: autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 # depends	: less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
-# depends	: sysklogd eudev dhcpcd libnl wpa_supplicant libarchive ca-certificates curl httpup scratchpkg runit runit-bootscripts
+# depends	: sysklogd eudev dhcpcd libnl wpa_supplicant libarchive curl httpup scratchpkg runit runit-bootscripts
 
 name=base
 version=20200118
