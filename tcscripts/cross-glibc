@@ -1,0 +1,40 @@
+name=glibc
+version=2.30
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	export BUILD_CC=gcc
+	export CC=${TARGET}-gcc
+	export CXX=${TARGET}-g++
+	export AR=${TARGET}-ar
+	export RANLIB=${TARGET}-ranlib
+
+	../configure \
+	      --prefix="$TCDIR" \
+	      --target="$TARGET" \
+	      --host="$TARGET" \
+	      --build="$HOST" \
+	      --libdir="$ROOTFS"/lib \
+	      --libexecdir="$TCDIR"/lib \
+	      --with-headers="$ROOTFS"/usr/include \
+	      --with-binutils="$TCDIR"/bin \
+	      --enable-add-ons \
+	      --enable-obsolete-rpc \
+	      --enable-kernel=2.6.32 \
+	      --enable-bind-now \
+	      --disable-profile \
+	      --enable-stackguard-randomization \
+	      --enable-lock-elision \
+	      --disable-multilib \
+	      --disable-werror
+
+	echo "build-programs=no" >> configparms
+	make
+	make -j1 install
+	
+}

@@ -53,7 +53,7 @@ ports() {
 	settermtitle "Building '$1'..."
 	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || {
 		settermtitle "Building '$1' failed."
-		return $?
+		exit 1
 	}
 	cd - >/dev/null
 }
@@ -82,7 +82,7 @@ cross_compiler() {
 		if [ "$?" != 0 ]; then
 			settermtitle "Building '$1' failed"
 			msgerr "'build' failed"
-			return 1
+			exit 1
 		else
 			settermtitle "Building '$1' completed"
 			msg "Cross toolchain build for '$name-$version' completed."
