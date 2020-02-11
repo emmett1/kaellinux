@@ -442,7 +442,7 @@ f:61d5c08850eea1095060099e30b9703b:groff/musl.patch
 f:e755f4bad9f28dec2cebc3a8cd087cbb:groff/spkgbuild
 f:9a02ef1b6d0dd5e035537f3f0531996d:pkgconf/.pkgfiles
 f:cf20afa84cce9f1c0beda72c4a494149:pkgconf/.checksums
-f:4f67a69be8b1b91d921f823ea0ebc8a0:pkgconf/spkgbuild
+f:2c27a120e4ce405517e0f69615ea3028:pkgconf/spkgbuild
 f:8f600bd8ca10f625240d20684769d540:mpfr/.pkgfiles
 f:49ef504142e997ebf66525ebd9cbc01c:mpfr/.checksums
 f:f24720fac9a1d086385c87c93813ea09:mpfr/spkgbuild
