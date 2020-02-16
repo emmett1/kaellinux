@@ -1,6 +1,5 @@
 # description	: Lightweight implementation of C standard library
-# backup	: 
-# depends	: 
+# homepage	: http://www.musl-libc.org/
 
 name=musl
 version=1.1.24
