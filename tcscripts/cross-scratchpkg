@@ -1,5 +1,5 @@
 name=scratchpkg
-version=0.3
+version=0.4
 source="https://github.com/venomlinux/scratchpkg/archive/$version/$name-$version.tar.gz"
 
 build() {

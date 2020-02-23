@@ -22,7 +22,7 @@ drwxr-xr-x root/root    usr/include/arpa/
 -rw-r--r-- root/root    usr/include/assert.h
 drwxr-xr-x root/root    usr/include/bits/
 -rw-r--r-- root/root    usr/include/bits/alltypes.h
--rw-r--r-- root/root    usr/include/bits/endian.h
+-rw-r--r-- root/root    usr/include/bits/dirent.h
 -rw-r--r-- root/root    usr/include/bits/errno.h
 -rw-r--r-- root/root    usr/include/bits/fcntl.h
 -rw-r--r-- root/root    usr/include/bits/fenv.h
