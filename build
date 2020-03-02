@@ -330,7 +330,7 @@ extra="linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-e
 
 checkroot
 build_base
-build_livecd
 build_rootfs
+build_livecd
 
 exit 0
