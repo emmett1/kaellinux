@@ -4,7 +4,7 @@
 # depends	: attr linux-api-headers
 
 name=libcap
-version=2.32
+version=2.33
 release=1
 source="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz"
 
@@ -15,7 +15,9 @@ build() {
 	sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
 	sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
 
-	
+	# Disable tests, as they cause cross-build failure
+	sed -e '/test:/,/.sh/d' -e '/tests/d' -i Makefile
+
 	if [ "$BOOTSTRAP" ]; then
 		make PAM_CAP=no BUILD_CC=gcc CC="$CC" GOLANG=no RAISE_SETFCAP=no lib=lib prefix=/usr DESTDIR=$PKG install
 	else

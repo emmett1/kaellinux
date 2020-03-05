@@ -1,12 +1,12 @@
 # description	: Linux kernel, sources and modules
-# depends	: elfutils mkinitramfs openssl linux-firmware
+# depends	: elfutils mkinitramfs openssl linux-firmware yaml
 
 name=linux
-version=4.19.92
+version=5.4.23
 release=1
 options="!strip"
-source="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	linux-config"
+source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
+	config"
 
 build() {
 	if [ "$BOOTSTRAP" ]; then
@@ -17,7 +17,8 @@ build() {
 
 	make $cross mrproper
 
-	cp $SRC/linux-config ./.config
+	cp $SRC/config ./.config
+	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
 	echo 'CONFIG_LOCALVERSION="-Kael"' >> .config

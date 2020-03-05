@@ -5,6 +5,7 @@ sources/
 packages/
 toolchain/
 *.iso
+*.img
 error
 outdate
 *.tar.xz

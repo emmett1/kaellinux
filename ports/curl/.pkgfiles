@@ -214,6 +214,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAIL_AUTH.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAIL_FROM.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAIL_RCPT.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAIL_RCPT_ALLLOWFAILS.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAXAGE_CONN.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAXCONNECTS.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/CURLOPT_MAXFILESIZE.3.gz
