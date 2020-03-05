@@ -10,18 +10,16 @@ source="https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz"
 
 build() {
 	if [ "$BOOTSTRAP" ]; then
-		flags="--host=$TARGET --build=$HOST"
+		flags="--host=$TARGET"
 	fi
 
 	cd $name-$version
 
 	./configure $flags \
-		    --prefix=/usr    \
-	            --enable-cxx     \
-	            --build=$MACHTYPE \
+		    --prefix=/usr \
+	            --enable-cxx \
+	            --build=${HOST:-x86_64-pc-linux-musl} \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share
 }

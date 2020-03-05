@@ -1,3 +1,12 @@
 #!/bin/sh
 [ -f conf ] && . ./conf
+[ "$INT" ] || {
+	for d in /sys/class/net/*; do
+        d=${d##*/}
+        case $d in
+                lo|sit0) continue;;
+        esac
+        INT=$d; break
+	done
+}
 exec dhcpcd -B -M $INT 1>&2

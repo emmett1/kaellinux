@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 USER=kael
 PASSWORD=kael
@@ -11,3 +11,7 @@ echo "root:root" | chpasswd -c SHA512
 echo "$USER:$PASSWORD" | chpasswd -c SHA512
 
 echo "kaellinux" > /etc/hostname
+
+for sv in dhcpcd sysklogd gpm; do
+	ln -s /etc/sv/$sv /var/service
+done

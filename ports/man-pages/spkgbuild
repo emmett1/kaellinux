@@ -13,5 +13,7 @@ build() {
 
 	# ship with tzdata
 	rm $PKG/usr/share/man/man5/tzfile.5
-	rm $PKG/usr/share/man/man8/{zic,tzselect,zdump}.8
+	rm $PKG/usr/share/man/man8/zic.8
+	rm $PKG/usr/share/man/man8/tzselect.8
+	rm $PKG/usr/share/man/man8/zdump.8
 }

@@ -25,9 +25,8 @@ build() {
 	make SHLIB_LIBS="-lncurses" DESTDIR=$PKG install
 
 	mkdir -p $PKG/lib
-	mv -v $PKG/usr/lib/lib{readline,history}.so.* $PKG/lib
+	mv -v $PKG/usr/lib/libreadline.so.* $PKG/lib
+	mv -v $PKG/usr/lib/libhistory.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libreadline.so) $PKG/usr/lib/libreadline.so
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libhistory.so ) $PKG/usr/lib/libhistory.so
-
-	rm -r $PKG/usr/share/{info,doc}
 }

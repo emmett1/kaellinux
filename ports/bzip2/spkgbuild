@@ -16,8 +16,8 @@ build() {
 	sed -i "/^all:/s/ test//" Makefile
 
 	# use our optimization
-	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile
-	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
+	[ ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile
+	[ ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
 
 	
 	if [ "$BOOTSTRAP" ]; then

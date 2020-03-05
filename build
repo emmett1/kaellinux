@@ -51,7 +51,7 @@ ports() {
 	}
 	cd $PORTSDIR/$1
 	settermtitle "Building '$1'..."
-	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i || {
+	pkgbuild --config=$PKGBUILDCONF --root=$ROOTFS -i --no-preinstall --no-postinstall || {
 		settermtitle "Building '$1' failed."
 		exit 1
 	}
@@ -170,6 +170,7 @@ build_base() {
 
 chroot_run() {
 	xchroot $ROOTFS $@
+	return $?
 }
 
 make_efiboot() {

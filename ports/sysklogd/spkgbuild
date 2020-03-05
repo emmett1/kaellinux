@@ -21,7 +21,11 @@ build() {
 	sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
 	sed -i 's/union wait/int/' syslogd.c
 
-	mkdir -p $PKG/{sbin,etc,usr/share/man/man{5,8}}
+	mkdir -p \
+		$PKG/sbin \
+		$PKG/etc \
+		$PKG/usr/share/man/man5 \
+		$PKG/usr/share/man/man8
 
 	make CC=${CC:-gcc}
 	make CC=${CC:-gcc} BINDIR=$PKG/sbin MANDIR=$PKG/usr/share/man install

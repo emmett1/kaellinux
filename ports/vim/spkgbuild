@@ -37,7 +37,8 @@ build() {
 	mv $SRC/man1 $PKG/usr/share/man/man1
 
 	# no desktop files and icons
-	rm -r $PKG/usr/share/{applications,icons}
+	rm -r $PKG/usr/share/icons
+	rm -r $PKG/usr/share/applications
 
 	ln -sv vim $PKG/usr/bin/vi
 

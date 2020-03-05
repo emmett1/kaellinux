@@ -31,9 +31,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	mkdir -pv $PKG/{bin,sbin}
-	mv -v $PKG/usr/bin/{hostname,ping,ping6,traceroute} $PKG/bin
+	mkdir -pv $PKG/bin $PKG/sbin
+	for i in hostname ping ping6 traceroute; do
+		mv -v $PKG/usr/bin/$i $PKG/bin
+	done
 	mv -v $PKG/usr/bin/ifconfig $PKG/sbin
-
-	rm -r $PKG/usr/share/info
 }
