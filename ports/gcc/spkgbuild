@@ -53,6 +53,5 @@ build() {
 	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
 	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
 
-	rm -fr $PKG/usr/share/info \
-	       $PKG/usr/share/$name-$version
+	rm -fr $PKG/usr/share/$name-$version
 }

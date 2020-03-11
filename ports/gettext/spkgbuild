@@ -37,8 +37,5 @@ build() {
 		gl_cv_func_gettimeofday_clobber=no
 	make
 	make -j1 DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/doc \
-	      $PKG/usr/share/info
 }
 

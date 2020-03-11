@@ -27,8 +27,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
-
 	mkdir -pv $PKG/lib
 	mv -v $PKG/usr/lib/libprocps.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libprocps.so) $PKG/usr/lib/libprocps.so

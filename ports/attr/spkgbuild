@@ -28,6 +28,4 @@ build() {
 	mkdir -p $PKG/lib
 	mv -v $PKG/usr/lib/libattr.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libattr.so) $PKG/usr/lib/libattr.so
-
-	rm -fr $PKG/usr/share/doc
 }

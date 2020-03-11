@@ -20,7 +20,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	ln -sv flex $PKG/usr/bin/lex
-
-	rm -r $PKG/usr/share/info \
-	      $PKG/usr/share/doc
 }
