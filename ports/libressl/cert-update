@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# update-certdata.sh
+# cert-update.sh
 
 [ -w /etc/ssl ] || {
 	echo "${0##*/}: required root to update cert."

@@ -12,6 +12,17 @@ msgerr() {
 	echo "!> $*"
 }
 
+bindmount() {
+	mount --bind $1 $2
+}
+
+unmount() {
+	while true; do
+		mountpoint -q $1 || break
+		umount $1 2>/dev/null
+	done
+}
+
 fetch() {
 	filename=$(basename $1)
 	url=$1
@@ -133,39 +144,24 @@ EOF
 }
 
 build_livecd() {
-	[ "$LIVE" = 1 ] || return 0
 	msg "Building liveiso..."
+	set -e
 	make_liveworkdir
 	make_initramfs
 	make_squashfs
 	make_efiboot
 	make_iso
 	cleaning
+	set +e
 }
 
 build_base() {
-	mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
-	
-	setup_pkgbuildconf
-
-	msg "Building base packages..."
-	for b in $cross_toolchain $base_system $extra; do
+	for b in $base_pkg; do
 		case $b in
 			cross-*) cross_compiler $b || exit $?;;
 				  *) ports $b || exit $?;;
 		esac
 	done
-
-	# copy ports to rootfs
-	msg "Copying ports..."
-	rm -fr $ROOTFS/usr/ports/core
-	mkdir -p $ROOTFS/usr/ports/core
-	cp -R ports/* $ROOTFS/usr/ports/core
-	rm -f $ROOTFS/usr/ports/core/{REPO,.httpup-repgen-ignore}
-	rm -f $ROOTFS/usr/ports/core/*/update
-
-	msg "Running xrevdep..."
-	xchroot $ROOTFS xrevdep
 }
 
 chroot_run() {
@@ -203,7 +199,7 @@ make_efiboot() {
 	mkdir -p "$EFIBOOTDIR"/EFI/boot
 	cp "$LIVEWDIR"/boot/EFI/bootx64.efi "$EFIBOOTDIR"/EFI/boot
 	
-	umount "$EFIBOOTDIR"
+	unmount "$EFIBOOTDIR"
 	rm -fr "$EFIBOOTDIR"
 }
 
@@ -263,7 +259,6 @@ cleaning() {
 }
 
 build_rootfs() {
-	[ "$RFS" = 1 ] || return 0
 	rm -f "$BUILDROOT"/kaellinux-rootfs.tar.xz
 	pushd "$ROOTFS" >/dev/null
 		msg "Building rootfs image..."
@@ -271,17 +266,13 @@ build_rootfs() {
 	popd >/dev/null
 }
 
-parse_opts() {
-	while [ "$1" ]; do
-		case $1 in
-			-jobs=*) JOBS=${1#*=};;
-			-root=*) ROOTFS=${1#*=};;
-			-pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
-			-liveiso) LIVE=1;;
-			-rootfs) RFS=1;;
-		esac
-		shift
-	done
+chrootbuild() {
+	builderror=0
+	PKG="$(echo $PKG | tr ',' ' ')"
+	mount_all
+	chroot_run scratch install $PKG -y || builderror=1
+	unmount_all
+	return $builderror
 }
 
 checkroot() {
@@ -291,12 +282,98 @@ checkroot() {
 	}
 }
 
+umount_any_mounted() {
+	for m in $(findmnt --list | grep $ROOTFS | awk '{print $1}' | sort | tac); do
+		unmount $m
+	done
+}
+
+mount_all() {
+	umount_any_mounted
+	mkdir -p $ROOTFS/usr/ports/core
+	bindmount $PORTSDIR $ROOTFS/usr/ports/core
+	bindmount $SRCDIR $ROOTFS/var/cache/scratchpkg/sources
+	bindmount $PKGDIR $ROOTFS/var/cache/scratchpkg/packages	
+}
+
+unmount_all() {
+	unmount $ROOTFS/var/cache/scratchpkg/packages
+	unmount $ROOTFS/var/cache/scratchpkg/sources
+	unmount $ROOTFS/usr/ports/core
+}
+
+rebase_rootfs() {
+	rebaseerror=0
+	mount_all
+	chroot_run xbase || rebaseerror=1
+	unmount_all
+	return $rebaseerror
+}
+
+enter_chroot() {
+	exitstatus=0
+	mount_all
+	chroot_run /bin/sh || exitstatus=1
+	unmount_all
+	return $exitstatus
+}
+
+sysup_rootfs() {
+	exitstatus=0
+	mount_all
+	chroot_run scratch upgrade scratchpkg -y || exitstatus=1
+	chroot_run scratch sysup -y || exitstatus=1
+	unmount_all
+	return $exitstatus
+}
+
+parse_opts() {
+	while [ "$1" ]; do
+		case $1 in
+			-jobs=*) JOBS=${1#*=};;
+			-root=*) ROOTFS=${1#*=};;
+			-pkgdir=*) PKGDIR=${1#*=};;
+			-srcdir=*) SRCDIR=${1#*=};;
+			-pkgbuildconf=*) PKGBUILDCONF=${1#*=};;
+			-iso) LIVE=1;;
+			-rootfs) RFS=1;;
+			-pkg=*) PKG=${1#*=};;
+			-rebase) REBASE=1;;
+			-chroot) CHROOT=1;;
+			-umount) UMOUNT=1;;
+			-sysup) SYSUP=1;;
+			*) msgerr "invalid options: $1"; exit 1;;
+		esac
+		shift
+	done
+}
+
+main() {
+	checkroot
+	
+	mkdir -p "$ROOTFS" "$BUILDDIR" "$SRCDIR" "$PKGDIR" "$TCDIR"
+	
+	#umount_any_mounted
+	setup_pkgbuildconf
+	build_base
+	
+	[ "$UMOUNT" = 1 ] && umount_any_mounted	
+	[ "$CHROOT" = 1 ] && enter_chroot	
+	[ "$SYSUP" = 1 ] && sysup_rootfs	
+	[ "$REBASE" = 1 ] && rebase_rootfs	
+	[ "$RFS" = 1 ] && build_rootfs	
+	[ "$PKG" ] && {
+		chrootbuild || exit 1	
+	}
+	[ "$LIVE" = 1 ] && build_livecd
+}
+
 parse_opts "$@"
 
 BUILDROOT=$(pwd)
 TCDIR="$BUILDROOT/toolchain"
-SRCDIR="$BUILDROOT/sources"
-PKGDIR="$BUILDROOT/packages"
+SRCDIR="${SRCDIR:-$BUILDROOT/sources}"
+PKGDIR="${PKGDIR:-$BUILDROOT/packages}"
 PORTSDIR="$BUILDROOT/ports"
 BUILDDIR="$BUILDROOT/work"
 ROOTFS="${ROOTFS:-$BUILDROOT/rootfs}"
@@ -321,17 +398,17 @@ export MAKEFLAGS="-j$JOBS"
 export CFLAGS="-O2 -march=x86-64 -pipe"
 export CXXFLAGS="${CFLAGS}"
 
-cross_toolchain="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2"
-base_system="filesystem man-pages musl tzdata zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
+base_pkg="cross-scratchpkg linux-api-headers cross-binutils cross-gcc-pass1 cross-musl cross-gcc-pass2
+	filesystem man-pages musl tzdata zlib bzip2 xz file ncurses readline m4 bc binutils gmp mpfr libmpc attr acl shadow
 	gcc pkgconf libcap sed psmisc iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl
 	autoconf automake kmod gettext libuargp musl-fts elfutils libressl coreutils diffutils gawk findutils groff
 	less gzip iproute2 kbd libpipeline make patch man-db tar texinfo vim procps-ng pcre2 util-linux e2fsprogs
-	sysklogd eudev dhcpcd libarchive curl httpup scratchpkg runit runit-bootscripts base"
-extra="linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-efi gpm links nnn lzo lz4 zstd squashfs-tools"
+	sysklogd eudev dhcpcd libarchive curl httpup scratchpkg runit runit-bootscripts ca-certificates base"
 
-checkroot
-build_base
-build_rootfs
-build_livecd
+[ "$LIVE" = 1 ] && {
+	base_pkg="$base_pkg linux-firmware fuse2 grub mkinitramfs linux efivar popt efibootmgr grub-efi gpm links nnn lzo lz4 zstd squashfs-tools"
+}
+
+main
 
 exit 0

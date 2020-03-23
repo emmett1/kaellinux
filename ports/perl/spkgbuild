@@ -1,14 +1,13 @@
 # description	: The Practical Extraction and Report Language
 # homepage	: https://www.perl.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gdbm
 
 name=perl
-version=5.30.1
+version=5.30.2
 release=1
-crossver=55ebdbcae0552c919c8a9d24a618c498281fcb2d
+crossver=1.3.2
 source="https://www.cpan.org/src/5.0/$name-$version.tar.xz
-	https://github.com/arsv/perl-cross/archive/$crossver.tar.gz"
+	https://github.com/arsv/perl-cross/releases/download/$crossver/perl-cross-$crossver.tar.gz"
 
 build() {
 	if [ "$BOOTSTRAP" ]; then

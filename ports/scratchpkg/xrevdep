@@ -1,11 +1,22 @@
 #!/bin/sh
 
-for i in /lib/*.so* /usr/lib/*.so* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
+for i in /lib/* /usr/lib/* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
 	case "$(file -bi $i)" in
 		*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
 			case "$(file $i)" in
 				*executable*statically\ linked*) continue;;
 			esac
-			ldd $i >/dev/null 2>&1 || pkgquery provide $i$;;
+			for f in $(ldd $i 2>&1 | grep "Error loading shared library" | sed "s/.*needed by //;s/)//" | sort | uniq); do
+				if ! echo $done | grep -wq $f; then
+					pkg=$(pkgquery provide $f | awk '{print $1}' | head -n1)
+					if ! echo $pkgdone | grep -wq $pkg; then
+						echo " $pkg -> $f"
+						pkgdone="$pkgdone $pkg"
+						unset pkg
+					fi
+					done="$done $f"
+					unset f
+				fi
+			done
 	esac
 done

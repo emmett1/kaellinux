@@ -1,10 +1,9 @@
 # description	: Programs for compressing and decompressing files
 # homepage	: https://tukaani.org/xz/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: bash
 
 name=xz
-version=5.2.4
+version=5.2.5
 release=1
 source="https://tukaani.org/$name/$name-$version.tar.xz"
 

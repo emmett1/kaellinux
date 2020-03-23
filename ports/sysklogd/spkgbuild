@@ -1,6 +1,5 @@
 # description	: Logging system messages, such as those given by the kernel
 # homepage	: http://www.infodrom.org/projects/sysklogd/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=sysklogd
 version=1.5.1

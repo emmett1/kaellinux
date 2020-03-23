@@ -1,10 +1,9 @@
 # description	: Utility and a library used for transferring files
 # homepage	: https://curl.haxx.se/
-# maintainer    : Emmett1, emmett1 dot 2miligrams at gmail dot com
 # depends	: libressl zlib
 
 name=curl
-version=7.69.0
+version=7.69.1
 release=1
 source="https://curl.haxx.se/download/$name-$version.tar.xz"
 

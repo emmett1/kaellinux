@@ -1,0 +1,25 @@
+# description	: A simple interface for userspace programs to export a virtual filesystem to the Linux kernel
+# homepage	: https://github.com/libfuse/libfuse
+# depends	: meson
+
+name=fuse3
+version=3.9.0
+release=1
+source="https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.xz
+	musl.patch"
+
+build() {
+	cd fuse-$version
+
+	patch -Np0 -i $SRC/musl.patch
+
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/dev $PKG/etc/fuse.conf
+	rm -fr $PKG/etc/init.d
+}

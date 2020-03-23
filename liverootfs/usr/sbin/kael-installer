@@ -1,0 +1,438 @@
+#!/bin/bash
+
+showdisk() {
+	lsblk -nrp -o NAME,TYPE | grep disk | awk '{print $1}'
+}
+
+showpartition() {
+	fdisk -l | grep ^\/dev | grep -Ev '(swap|Extended|EFI|BIOS)' | awk '{print $1}'
+}
+
+showswap() {
+	fdisk -l | grep ^\/dev | grep swap | awk '{print $1}'
+}
+
+showefi() {
+	fdisk -l | grep ^\/dev | grep EFI | awk '{print $1}'
+}
+
+gpt_check() {
+	disktype=$(fdisk -l $1 | grep "Disklabel type:" | cut -d ' ' -f3)
+	[ "$disktype" = "gpt" ] || return 1
+	return 0
+}
+
+setup_grub() {
+	local opt=($(showdisk) SKIP)
+	while [ ! "$var_grub" ]; do
+		printcurrent
+		echo "Choose partition to install grub:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_grub=${opt[$((input-1))]}
+		fi
+	done
+}
+
+setup_partitiontype() {
+	local opt=(ext4 ext3 ext2 btrfs reiserfs xfs)
+	while [ ! "$var_parttype" ]; do
+		printcurrent
+		echo "Choose partition type:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_parttype=${opt[$((input-1))]}
+		fi
+	done
+}
+
+partitioning_tips() {
+	printcurrent
+	echo "               ***** PARTITIONING TIPS *****"
+	echo "For BIOS systems, MBR or GPT partition tables are supported."
+	echo "To use GPT partition in BIOS system 1MB partition must be created"
+	echo "and set as 'BIOS boot'. For EFI systems, GPT partition is required"
+	echo "and a FAT32 partition with at least 100MB set as 'EFI System' must"
+	echo "be created. This partition will be used as 'EFI System Partition'"
+	echo "with '/boot/efi' as mountpoint."
+	echo
+	echo "Press Enter to continue"
+	read
+}
+
+setup_efi() {
+	local allefi=$(showefi)
+	[ "$allefi" ] || {
+		[ "$EFI_SYSTEM" = 1 ] && {
+			echo "For EFI systems, GPT partition is required and a FAT32 partition"
+			echo "with at least 100MB set as 'EFI System' must be created."
+			exit 1
+		} || {
+			var_efi=SKIP
+			return 0
+		}
+	}
+	local opt=($allefi SKIP)
+	while [ ! "$var_efi" ]; do
+		printcurrent
+		echo "Choose EFI partition:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_efi=${opt[$((input-1))]}
+		fi
+	done
+}
+
+setup_swap() {
+	local allswap=$(showswap)
+	[ "$allswap" ] || {
+		var_swap=SKIP
+		return 0
+	}
+	local opt=($allswap SKIP)
+	while [ ! "$var_swap" ]; do
+		printcurrent
+		echo "Choose swap partition:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_swap=${opt[$((input-1))]}
+		fi
+	done
+}
+
+setup_hostname() {
+	local default=kaellinux
+	while [ ! "$var_hostname" ]; do
+		printcurrent
+		read -p "Enter hostname [$default]: " var_hostname
+		var_hostname=${var_hostname:-$default}
+	done
+}
+
+setup_user() {
+	local default=kael
+	while [ ! "$var_username" ]; do
+		printcurrent
+		read -p "Enter username [$default]: " var_username
+		var_username=${var_username:-$default}
+	done
+	while [ ! "$var_userpwd" ]; do
+		printcurrent
+		read -p "Enter password for '$var_username'   : " var_userpwd
+		read -p "Re-Enter password for '$var_username': " var_userpwd_2
+		[ "$var_userpwd" = "$var_userpwd_2" ] || {
+			echo "PASWORD MISMATCH!"
+			sleep 2
+			unset var_userpwd var_userpwd_2
+		}
+	done
+}
+
+setup_rootpwd() {
+	while [ ! "$var_rootpwd" ]; do
+		printcurrent
+		read -p "Enter password for 'root'   : " var_rootpwd
+		read -p "Re-Enter password for 'root': " var_rootpwd_2
+		[ "$var_rootpwd" = "$var_rootpwd_2" ] || {
+			echo "PASWORD MISMATCH!"
+			sleep 2
+			unset var_rootpwd var_rootpwd_2
+		}
+	done
+}
+
+setup_clock() {
+	local opt=(utc localtime)
+	while [ ! "$var_clock" ]; do
+		printcurrent
+		echo "Choose clock:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_clock=${opt[$((input-1))]}
+		fi
+	done
+}
+
+setup_rootpartition() {
+	choose_disk
+	local opt=($(showpartition))
+	while [ ! "$var_partition" ]; do
+		printcurrent
+		echo "Choose partition for root (/):"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_partition=${opt[$((input-1))]}
+		fi
+	done
+}
+
+choose_ptool() {
+	local opt=(cfdisk fdisk SKIP)
+	while [ ! "$var_parttool" ]; do
+		printcurrent
+		echo "Choose partitioning tool:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_parttool=${opt[$((input-1))]}
+		fi
+	done
+}
+
+setup_timezone() {
+	printcurrent
+	var_timezone=$(tzselect)
+}
+
+choose_disk() {
+	choose_ptool
+	[ "$var_parttool" = SKIP ] && return 0
+	local opt=($(showdisk))
+	while [ ! "$var_disk" ]; do
+		printcurrent
+		echo "Choose disk:"; echo
+		for i in ${!opt[@]}; do
+			echo " $((i+1)) ${opt[$i]}"
+		done
+		echo; read -p "Enter input: " input
+		if [ "$input" = 0 ]; then
+			echo "Script exit"
+			exit 1
+		elif [ "$input" -le "${#opt[@]}" ]; then
+			var_disk=${opt[$((input-1))]}
+		fi
+	done
+	$var_parttool $var_disk
+}
+
+continue_install() {
+	printcurrent
+	echo -n "Continue installation (N/y) "
+	read -r response
+	case "$response" in
+		[Yy][Ee][Ss]|[Yy]) return 0 ;;
+		*) : ;;
+	esac
+	echo "Installation is aborted!"
+	exit 1
+}
+
+printcurrent() {
+	clear
+	echo "***** Kael Linux Installer *****"
+	echo "+------------------------------+"
+	echo " Root Partition:  $var_partition"
+	echo " Partition type:  $var_parttype"
+	echo " EFI Partition:   $var_efi"
+	echo " Swap:            $var_swap"
+	echo " Timezone:        $var_timezone"
+	echo " Clock:           $var_clock"
+	echo " Hostname:        $var_hostname"
+	echo " Username:        $var_username"
+	echo " User Password:   $var_userpwd"
+	echo " Root Password:   $var_rootpwd"
+	echo " Grub:            $var_grub"
+	echo "+------------------------------+"
+	echo	
+}
+
+chroot_run() {
+	xchroot $INSTALLROOT $@
+	return $?
+}
+
+install_now() {
+	continue_install
+	
+	case $var_parttype in
+		ext4|ext3|ext2) mkfs.$var_parttype -F -L KaelLinux $var_partition &>/dev/null;;
+		xfs) mkfs.xfs -f -m crc=0 -L KaelLinux $var_partition &>/dev/null;;
+		reiserfs) mkreiserfs -q -l KaelLinux $var_partition &>/dev/null;;
+		btrfs) mkfs.btrfs -f -L KaelLinux $var_partition &>/dev/null;;
+	esac
+	[ $? = 0 ] || {
+		echo "Failed create '$var_parttype' filesystem on '$var_partition'"
+		exit 1
+	}
+	
+	[ "$EFI_SYSTEM" = 1 ] && {
+		echo "Formatting partition $var_efi to fat32"
+		mkfs.vfat -F32 $var_efi &>/dev/null || {
+			echo "Failed create fat32 filesystem on $var_efi"
+			exit 1
+		}
+	}
+	
+	[ "$var_swap" = "SKIP" ] || {
+		echo "Formatting partition $var_swap to swap"
+		mkswap $var_swap &>/dev/null || {
+			echo "Failed create 'swap' on '$var_swap'"
+			exit 1
+		}
+	}
+	
+	rm -fr $INSTALLROOT
+	mkdir -p $INSTALLROOT
+	
+	mount $var_partition $INSTALLROOT || {
+		print_error_msg "Error mount '$var_partition' to $INSTALLROOT"
+		exit 1
+	}
+	
+	[ "$EFI_SYSTEM" = 1 ] && {
+		mkdir -p $INSTALLROOT/boot/efi || {
+			echo "Error create '$VENOMROOT/boot/efi' directory"
+			exit 1
+		}
+		echo "Mounting '$var_efi'..."
+		mount $var_efi $INSTALLROOT/boot/efi || {
+			echo "Error mount '$var_efi'"
+			exit 1
+		}
+	}
+	
+	totalsfs=$(unsquashfs -l $ROOTSFS | wc -l)
+	countsfs=0
+	
+	unsquashfs -f -i -d $INSTALLROOT $ROOTSFS | sed "s:$INSTALLROOT::" | while read -r line; do
+		countsfs=$(( countsfs + 1 ))
+		echo " $(( 100*countsfs/totalsfs ))% $line"
+	done
+	
+	for sv in dhcpcd sysklogd gpm dbus lxdm networkmanager; do
+		chroot_run ln -s /etc/sv/$sv /var/service
+	done
+	
+	chroot_run ln -s /usr/share/zoneinfo/$var_timezone /etc/localtime
+	
+	echo "Setup fstab..."
+	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $INSTALLROOT/etc/fstab
+	echo "UUID=$(blkid -o value -s UUID "$var_partition") / $var_parttype defaults 1 1" >> $INSTALLROOT/etc/fstab
+
+	[ "$EFI_SYSTEM" = 1 ] && {
+		echo "UUID=$(blkid -o value -s UUID "$var_efi") /boot/efi vfat defaults 0 2" >> $INSTALLROOT/etc/fstab
+	}
+
+	[ "$var_swap" = "SKIP" ] || {
+		echo "UUID=$(blkid -o value -s UUID "$var_swap") swap swap pri=1 0 0" >> $INSTALLROOT/etc/fstab
+	}
+	
+	echo "Creating user ($var_username)..."
+	useradd -R $INSTALLROOT -m -G users,wheel,audio,video -s /bin/bash $var_username || {
+		echo "Error configure user '$user_var'"
+		exit 1
+	}
+	
+	echo "Setting user password ($var_username)..."
+	echo "$var_username:$var_userpwd" | chpasswd -R $INSTALLROOT -c SHA512 || {
+		echo "Error setting user password"
+		exit 1
+	}
+	
+	echo "Setting root password..."
+	echo "root:$var_rootpwd" | chpasswd -R $INSTALLROOT -c SHA512 || {
+		echo "Error setting root password"
+		exit 1
+	}
+	
+	echo "Generating initramfs..."
+	chroot_run mkinitramfs &>/dev/null || {
+		print_error_msg "Error generating initramfs"
+		exit 1
+	}
+	
+	[ "$var_grub" = "SKIP" ] || {
+		if [ "$EFI_SYSTEM" = 1 ]; then
+			echo "Installing grub (EFI)..."
+			chroot_run grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=kael_grub --recheck $var_grub &>/dev/null || {
+				echo "Error installing grub"
+				exit 1
+			}
+		else
+			echo "Installing grub..."
+			chroot_run grub-install $var_grub &>/dev/null || {
+				print_error_msg "Error installing grub"
+				exit 1
+			}
+		fi
+		echo "Generating grub config..."
+		chroot_run grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null || {
+			print_error_msg "Error generating grub config"
+			exit 1
+		}
+	}
+	
+	umount -R $INSTALLROOT
+	
+	echo "Installation done!"
+}
+
+if [ -f "/run/initramfs/ram/root.sfs" ]; then
+	ROOTSFS="/run/initramfs/ram/root.sfs"
+elif [ -f "/run/initramfs/medium/kael/root.sfs" ]; then
+	ROOTSFS="/run/initramfs/medium/kael/root.sfs"
+else
+	echo "squashed image not found!"
+	exit 1
+fi
+
+INSTALLROOT=/tmp/kaelinstallroot
+
+EFI_SYSTEM=0
+[ -e /sys/firmware/efi/systab ] && EFI_SYSTEM=1
+
+partitioning_tips
+setup_rootpartition
+setup_partitiontype
+setup_efi
+setup_swap
+setup_timezone
+setup_clock
+setup_hostname
+setup_user
+setup_rootpwd
+setup_grub
+install_now
+
+exit 0

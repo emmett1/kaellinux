@@ -1,6 +1,5 @@
 # description	: Programs for compressing and decompressing files
 # homepage	: https://sources.redhat.com/bzip2
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: bash
 
 name=bzip2

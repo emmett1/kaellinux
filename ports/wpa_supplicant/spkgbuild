@@ -1,25 +1,18 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libnl libressl dhcpcd
+# depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
 version=2.9
 release=1
-backup="etc/wpa_supplicant.conf
-	etc/sv/$name/conf"
+backup="etc/wpa_supplicant.conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
-	patch-src_utils_eloop_c.diff
-	wpa_supplicant.conf
 	run
-	conf"
+	conf
+	wpa_supplicant.conf"
 
 build() {
 	cd $name-$version
-
-	patch -Np0 -i $SRC/patch-src_utils_eloop_c.diff
-
-	export CFLAGS="$(pkg-config --cflags libnl-3.0) $CFLAGS"
 
 	cat > wpa_supplicant/.config << "EOF"
 CONFIG_BACKEND=file
@@ -46,24 +39,27 @@ CONFIG_PKCS12=y
 CONFIG_READLINE=y
 CONFIG_SMARTCARD=y
 CONFIG_WPS=y
+CFLAGS += -I/usr/include/libnl3
+CONFIG_CTRL_IFACE_DBUS=y
+CONFIG_CTRL_IFACE_DBUS_NEW=y
+CONFIG_CTRL_IFACE_DBUS_INTRO=y
 EOF
 
 	cd $name
 	make BINDIR=/sbin LIBDIR=/lib
 
-	install -d \
-		$PKG/sbin \
-		$PKG/usr/share/man/man5 \
-		$PKG/usr/share/man/man8
+	for xx in sbin usr/share/man/man5 usr/share/man/man8; do
+		install -d $PKG/$xx
+	done
 
-	install -m755 wpa_cli wpa_passphrase wpa_supplicant $PKG/sbin/
+	for xx in cli passphrase supplicant; do
+		install -m755 wpa_$xx $PKG/sbin/
+		install -m644 doc/docbook/wpa_$xx.8 $PKG/usr/share/man/man8/
+	done
 	install -m644 doc/docbook/wpa_supplicant.conf.5 $PKG/usr/share/man/man5/
-	install -m644 doc/docbook/wpa_cli.8 \
-		doc/docbook/wpa_passphrase.8 \
-		doc/docbook/wpa_supplicant.8 \
-		$PKG/usr/share/man/man8/
 	
-	install -d $PKG/etc/dbus-1/system.d/ $PKG/usr/share/dbus-1/system-services/
+	install -d $PKG/etc/dbus-1/system.d/
+	install -d $PKG/usr/share/dbus-1/system-services/
 	install -m644 dbus/fi.w1.wpa_supplicant1.service $PKG/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 	install -m644 dbus/dbus-wpa_supplicant.conf $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
 

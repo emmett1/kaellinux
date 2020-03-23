@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo "Calculate keep packages..."
+keep=$(scratch deplist base | awk '{print $2}')
+if [ "$1" ]; then
+	echo "Calculate extrakeep packages..."
+	extrakeep=$(scratch deplist $@ | awk '{print $2}')
+fi
+keep="$keep $extrakeep"
+
+echo "Get all installed packages..."
+allinstalled=$(pkgquery installed | awk '{print $1}')
+
+echo "Calculate selected packages to remove..."
+for pkg in $allinstalled; do
+	echo $keep | tr ' ' '\n' | grep -qx $pkg
+	if [ "$?" != 0 ]; then
+		if [ "$remove" = "" ]; then
+			remove=$pkg
+		else
+			remove="$remove $pkg"
+		fi
+	fi
+done
+
+if [ -n "$remove" ]; then
+	scratch remove -y $remove
+fi
+
+exit $?

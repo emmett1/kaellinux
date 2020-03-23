@@ -1,6 +1,5 @@
 # description	: FREE version of the SSL/TLS protocol forked from OpenSSL
 # homepage	: http://www.libressl.org/
-# maintainer	:
 # depends	: 
 
 name=libressl
@@ -20,7 +19,8 @@ build() {
 	autoreconf -fi
 	./configure $flags \
 		--prefix=/usr \
-		--sysconfdir=/etc
+		--sysconfdir=/etc \
+		--with-openssldir=/etc/ssl
 	make
 	make DESTDIR=$PKG install
 

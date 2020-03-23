@@ -1,6 +1,5 @@
 # description	: Reading/writing various compression formats
 # homepage	: https://libarchive.org/
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: acl xz lz4 bzip2
 
 name=libarchive
