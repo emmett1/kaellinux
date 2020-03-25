@@ -1,6 +1,6 @@
 # description	: Multi-protocol, multi-mailbox mail watcher for the Xfce4 panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-mailwatch-plugin
-# depends	: xfce4-panel intltool
+# depends	: glib xfce4-panel libxfce4ui gnutls libgcrypt libgpg-error exo gtk2 pango atk cairo gdk-pixbuf harfbuzz fontconfig freetype2 libxfce4util
 
 name=xfce4-mailwatch-plugin
 version=1.2.0

@@ -1,6 +1,6 @@
 # description	: OpenGL compatible 3D graphics library
 # homepage	: https://www.mesa3d.org/
-# depends	: libdrm python3 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau libglvnd python3-mako libx11 xorgproto wayland-protocols
+# depends	: libdrm llvm expat zlib zstd elfutils libxcb libxshmfence libx11 wayland libxvmc libxv libxext libxfixes libxdamage libxxf86vm python3-mako libglvnd xrandr
 
 name=mesa
 version=20.0.2

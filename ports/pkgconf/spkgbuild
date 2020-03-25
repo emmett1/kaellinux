@@ -1,6 +1,5 @@
 # description	: Package compiler and linker metadata toolkit
 # homepage	: https://github.com/pkgconf/pkgconf
-# depends	: 
 
 name=pkgconf
 version=1.6.3

@@ -1,6 +1,6 @@
 # description	: A set of plug-ins considered by the GStreamer developers to have good quality and correct functionality, but distributing them might pose problems
 # homepage	: https://gstreamer.freedesktop.org/
-# depends	: gst-plugins-base lame liba52 libdvdread x264 meson
+# depends	: gstreamer glib gst-plugins-base libdvdread x264
 
 name=gst-plugins-ugly
 version=1.16.2

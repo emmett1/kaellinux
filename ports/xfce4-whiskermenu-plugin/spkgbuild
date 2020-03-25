@@ -1,6 +1,6 @@
 # description	: Alternate menu for Xfce4
 # homepage	: https://gottcode.org/xfce4-whiskermenu-plugin/
-# depends	: garcon xfce4-panel cmake ninja
+# depends	: gtk3 cairo gdk-pixbuf glib exo libxfce4util garcon xfce4-panel libxfce4ui cmake
 
 name=xfce4-whiskermenu-plugin
 version=2.3.5

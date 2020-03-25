@@ -1,6 +1,6 @@
 # description	: Utilities used to display information about USB buses in the system and the devices connected to them
 # homepage	: http://linux-usb.sourceforge.net/
-# depends	: libusb
+# depends	: libusb eudev
 
 name=usbutils
 version=012

@@ -1,6 +1,6 @@
 # description	: allows a system administrator to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while logging the commands and arguments
 # homepage	: https://www.sudo.ws
-# depends	: linux-pam
+# depends	: linux-pam zlib
 
 name=sudo
 version=1.8.31p1

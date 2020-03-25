@@ -1,6 +1,6 @@
 # description	: Simple GTK+ 2 text editor for the Xfce desktop environment
 # homepage	: http://www.xfce.org/
-# depends	: gtksourceview3
+# depends	: gtksourceview3 gtk3 pango xfconf glib
 
 name=mousepad
 version=0.4.2

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#
+# script to check broken binaries/libraries
+#
+
 for i in /lib/* /usr/lib/* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
 	case "$(file -bi $i)" in
 		*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
@@ -20,3 +24,5 @@ for i in /lib/* /usr/lib/* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
 			done
 	esac
 done
+
+exit 0

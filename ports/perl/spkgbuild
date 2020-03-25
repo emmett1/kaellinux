@@ -1,6 +1,6 @@
 # description	: The Practical Extraction and Report Language
 # homepage	: https://www.perl.org/
-# depends	: gdbm
+# depends	: gdbm bzip2 zlib
 
 name=perl
 version=5.30.2

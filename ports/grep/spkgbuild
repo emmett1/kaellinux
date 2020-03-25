@@ -1,6 +1,5 @@
 # description	: Programs for searching through files
 # homepage	: https://www.gnu.org/software/grep/
-# depends	: texinfo
 
 name=grep
 version=3.4

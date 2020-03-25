@@ -1,6 +1,6 @@
 # description	: Plugin that makes screenshots for the Xfce panel
 # homepage	: http://goodies.xfce.org/projects/applications/xfce4-screenshooter
-# depends	: xfce4-panel intltool libsoup hicolor-icon-theme
+# depends	: xfce4-panel glib exo libxfce4ui gtk3 pango harfbuzz atk cairo gdk-pixbuf libxfce4util libsoup libxml2 libxext libsm libice libx11 libxfixes
 
 name=xfce4-screenshooter
 version=1.9.7

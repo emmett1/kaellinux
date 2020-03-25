@@ -1,6 +1,5 @@
 # description	: Portable web rendering engine WebKit to the GTK+ 3 and GTK+ 2 platforms
-# depends	: cairo cmake gst-plugins-base gst-plugins-bad gtk2 gtk3 harfbuzz-icu libgudev libsecret libsoup libseccomp
-# depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libnotify
+# depends	: gobject-introspection gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libwpe wpebackend-fdo libglvnd libnotify sqlite libxml2 libxslt icu harfbuzz-icu fontconfig freetype2 libgcrypt gst-plugins-base gstreamer libjpeg-turbo libpng openjpeg2 libwebp libsoup enchant libseccomp libsecret libtasn1 libx11 libxcomposite libxdamage libxrender libxt zlib wayland ruby bubblewrap xdg-dbus-proxy
 
 name=webkitgtk
 version=2.28.0
@@ -33,6 +32,4 @@ build() {
 	      -Wno-dev -G Ninja ..
 	ninja
 	DESTDIR=$PKG ninja install
-
-	rm -rf $PKG/usr/share/locale
 }

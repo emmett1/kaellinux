@@ -1,6 +1,6 @@
 # description	: A set of plug-ins considered by the GStreamer developers to have good quality code, correct functionality, and the preferred license
 # homepage	: https://gstreamer.freedesktop.org/
-# depends	: gst-plugins-base cairo flac gdk-pixbuf libjpeg-turbo libpng libsoup libvpx libxdamage meson
+# depends	: gstreamer glib gst-plugins-base gdk-pixbuf libjpeg-turbo libgudev flac zlib libx11 libxext libxfixes libxdamage libsoup bzip2 libvpx cairo gtk3 libpng
 
 name=gst-plugins-good
 version=1.16.2

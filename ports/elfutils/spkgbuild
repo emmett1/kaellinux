@@ -1,5 +1,5 @@
 # description	: utilities and libraries for handling ELF files
-# depends	: musl-fts libuargp
+# depends	: zlib libuargp xz bzip2
 
 name=elfutils
 version=0.178

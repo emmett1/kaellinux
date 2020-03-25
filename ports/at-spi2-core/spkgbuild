@@ -1,6 +1,6 @@
 # description	: Provides a Service Provider Interface for the Assistive Technologies available on the GNOME platform and a library against which applications can be linked
 # homepage	: https://www.gnome.org/
-# depends	: dbus glib libxtst gobject-introspection meson
+# depends	: gobject-introspection glib dbus libx11 libxtst
 
 name=at-spi2-core
 version=2.36.0

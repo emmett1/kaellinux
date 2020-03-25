@@ -1,6 +1,6 @@
 # description	: A project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol
 # homepage	: https://wayland.freedesktop.org/
-# depends	: libffi libxml2
+# depends	: libffi expat libxml2
 
 name=wayland
 version=1.18.0

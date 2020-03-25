@@ -1,6 +1,6 @@
 # description	: Well-groomed and well-maintained collection of GStreamer plug-ins and elements
 # homepage	: https://gstreamer.freedesktop.org/
-# depends	: alsa-lib gstreamer libtheora libvorbis libogg gobject-introspection iso-codes meson
+# depends	: gobject-introspection glib gstreamer libglvnd wayland libx11 libxcb zlib libxext libxv libtheora pango cairo libpng libjpeg-turbo libvorbis alsa-lib libogg
 
 name=gst-plugins-base
 version=1.16.2

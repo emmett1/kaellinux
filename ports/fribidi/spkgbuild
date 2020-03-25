@@ -1,6 +1,6 @@
 # description	: Implementation of the Unicode Bidirectional Algorithm (BIDI)
 # homepage	: http://fribidi.org
-# depends	: glib meson
+# depends	: meson
 
 name=fribidi
 version=1.0.9

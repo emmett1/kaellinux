@@ -1,6 +1,6 @@
 # description	: C library supporting GObject introspection for manipulation of block devices
 # homepage	: https://github.com/rhinstaller/libblockdev
-# depends	: libbytesize lvm2 volume_key nss cryptsetup parted gobject-introspection python3 yaml
+# depends	: gobject-introspection glib eudev kmod parted lvm2 util-linux libbytesize cryptsetup nss nspr volume_key yaml
 
 name=libblockdev
 version=2.23

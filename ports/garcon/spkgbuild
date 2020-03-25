@@ -1,6 +1,6 @@
 # description	: Freedesktop.org compliant menu implementation based on GLib and GIO
 # homepage	: http://www.xfce.org/
-# depends	: libxfce4ui
+# depends	: glib libxfce4util libxfce4ui gtk3 pango harfbuzz atk cairo gdk-pixbuf gtk2 fontconfig freetype2
 
 name=garcon
 version=0.6.4

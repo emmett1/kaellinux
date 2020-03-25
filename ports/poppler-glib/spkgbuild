@@ -1,6 +1,6 @@
 # description	: glib wrapper for poppler
 # homepage	: https://poppler.freedesktop.org/
-# depends	: poppler glib gobject-introspection
+# depends	: gobject-introspection poppler cairo freetype2 glib cmake
 
 name=poppler-glib
 version=0.86.1

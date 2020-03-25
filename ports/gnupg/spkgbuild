@@ -1,6 +1,6 @@
 # description	: GNU's tool for secure communication and data storage
 # homepage	: https://www.gnupg.org/
-# depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
+# depends	: libgcrypt libgpg-error libksba libassuan npth libusb readline zlib bzip2 gnutls sqlite
 
 name=gnupg
 version=2.2.20

@@ -1,5 +1,5 @@
 # description	: Library of C routines for reading and writing files containing sampled audio data
-# depends	: flac libvorbis alsa-lib
+# depends	: flac libogg libvorbis alsa-lib sqlite
 
 name=libsndfile
 version=1.0.28

@@ -1,5 +1,6 @@
 # description	: Low-level cryptographic library that is designed to fit easily in many contexts
 # homepage	: https://www.lysator.liu.se/~nisse/nettle/
+# depends	: gmp
 
 name=nettle
 version=3.5.1

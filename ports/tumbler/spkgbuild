@@ -1,6 +1,6 @@
 # description	: D-Bus thumbnailing service based on the thumbnail management D-Bus specification
 # homepage	: http://www.xfce.org/
-# depends	: glib dbus-glib gdk-pixbuf ffmpegthumbnailer poppler
+# depends	: gdk-pixbuf glib libjpeg-turbo libpng zlib ffmpegthumbnailer freetype2 poppler-glib cairo gst-plugins-base gstreamer curl intltool
 
 name=tumbler
 version=0.2.8

@@ -1,5 +1,6 @@
 # description	: Ruby development environment
 # homepage	: https://www.ruby-lang.org/en/
+# depends	: zlib gmp libressl libffi readline ncurses gdbm
 
 name=ruby
 version=2.7.0

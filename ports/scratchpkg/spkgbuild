@@ -1,9 +1,8 @@
 # description	: A simple package manager for Linux Distribution
-# depends	: coreutils bash curl httpup libarchive
 
 name=scratchpkg
 version=0.6
-release=2
+release=4
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/scratchpkg.alias

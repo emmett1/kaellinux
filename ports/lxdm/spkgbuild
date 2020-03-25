@@ -1,6 +1,6 @@
 # description	: Lightweight Display Manager for the LXDE desktop
 # homepage	: http://lxde.org/
-# depends	: gtk3 iso-codes consolekit2 linux-pam xorg-server librsvg
+# depends	: glib libxcb consolekit2 dbus linux-pam libx11 gtk3 pango harfbuzz atk cairo gdk-pixbuf
 
 name=lxdm
 version=0.5.3

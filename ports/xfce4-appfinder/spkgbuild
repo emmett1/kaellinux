@@ -1,6 +1,6 @@
 # description	: Tool to find and launch installed applications by searching the .desktop files
 # homepage	: http://www.xfce.org/
-# depends	: garcon libxfce4ui
+# depends	: libxfce4ui gtk3 gdk-pixbuf libxfce4util garcon xfconf glib
 
 name=xfce4-appfinder
 version=4.14.0

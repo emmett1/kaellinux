@@ -1,6 +1,6 @@
 # description	: Session manager for Xfce
 # homepage	: http://www.xfce.org/
-# depends	: libwnck3 libxfce4ui which desktop-file-utils shared-mime-info polkit-gnome xfdesktop libsm iceauth xinit xrdb
+# depends	: glib libsm libice libx11 libxfce4ui libxfce4util libwnck3 gtk3 pango atk cairo gdk-pixbuf polkit xfconf iceauth
 
 name=xfce4-session
 version=4.14.1

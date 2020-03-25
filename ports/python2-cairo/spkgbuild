@@ -1,6 +1,6 @@
 # description	: Python 2 bindings to Cairo
 # homepage	: https://pycairo.readthedocs.io/en/latest/
-# depends	: python2 cairo
+# depends	: cairo python2
 
 name=python2-cairo
 version=1.18.2

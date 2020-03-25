@@ -1,6 +1,6 @@
 # description	: Reading/writing various compression formats
 # homepage	: https://libarchive.org/
-# depends	: acl xz lz4 bzip2
+# depends	: libressl acl expat xz bzip2 zlib
 
 name=libarchive
 version=3.4.2

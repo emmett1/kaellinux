@@ -1,6 +1,6 @@
 # description	: GObject based library for accessing the Secret Service API
 # homepage	: https://wiki.gnome.org/Projects/Libsecret
-# depends	: glib libgcrypt gobject-introspection vala
+# depends	: gobject-introspection vala libgcrypt libgpg-error glib
 
 name=libsecret
 version=0.20.2

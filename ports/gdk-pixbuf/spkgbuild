@@ -1,5 +1,6 @@
 # description	: Toolkit for image loading and pixel buffer manipulation
-# depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
+# depends	: gobject-introspection glib libx11 libpng zlib libjpeg-turbo jasper libtiff
+# depends	: shared-mime-info meson
 
 name=gdk-pixbuf
 version=2.40.0

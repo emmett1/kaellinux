@@ -1,5 +1,5 @@
 # description	: Tools for squashfs, a highly compressed read-only filesystem for Linux
-# depends	: zlib lzo xz lz4 zstd
+# depends	: zlib xz lzo lz4 zstd
 
 name=squashfs-tools
 version=4.4

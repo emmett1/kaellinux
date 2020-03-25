@@ -1,5 +1,5 @@
 # description	: Termcap file implementation for terminal emulators
-# depends	: gtk3 pcre2 gnutls gobject-introspection libxml2 vala meson
+# depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 atk cairo gdk-pixbuf
 
 name=vte3
 version=0.58.3

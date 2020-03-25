@@ -1,6 +1,6 @@
 # description	: Portable subtitle renderer for the ASS/SSA (Advanced Substation Alpha/Substation Alpha) subtitle format
 # homepage	: https://github.com/libass/libass/
-# depends	: freetype2 fribidi fontconfig nasm
+# depends	: fribidi fontconfig freetype2 harfbuzz
 
 name=libass
 version=0.14.0

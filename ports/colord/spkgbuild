@@ -1,5 +1,5 @@
 # description	: System activated daemon that maps devices to color profiles
-# depends	: dbus glib lcms2 sqlite libgudev libgusb polkit gobject-introspection vala meson
+# depends	: gobject-introspection vala glib libgusb libgudev lcms2 eudev polkit sqlite
 
 name=colord
 version=1.4.4

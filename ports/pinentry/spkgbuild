@@ -1,6 +1,6 @@
 # description	: Collection of simple PIN or pass-phrase entry dialogs which utilize the Assuan protocol
 # homepage	: https://gnupg.org/related_software/pinentry/
-# depends	: libassuan libgpg-error
+# depends	: libsecret glib libassuan libgpg-error libcap ncurses gtk2 pango atk cairo gdk-pixbuf harfbuzz fontconfig freetype2
 
 name=pinentry
 version=1.1.0

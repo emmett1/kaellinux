@@ -1,6 +1,6 @@
 # description	: Library that bridges ATK to At-Spi2 D-Bus service
 # homepage	: https://wiki.gnome.org/Accessibility
-# depends	: at-spi2-core atk
+# depends	: glib dbus at-spi2-core atk
 
 name=at-spi2-atk
 version=2.34.2

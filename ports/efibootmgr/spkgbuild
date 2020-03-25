@@ -1,5 +1,5 @@
 # description	: Manipulate efi boot managers
-# depends	: efivar pciutils
+# depends	: efivar popt
 
 name=efibootmgr
 version=17

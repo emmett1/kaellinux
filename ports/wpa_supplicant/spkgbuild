@@ -1,6 +1,6 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
-# depends	: libnl openssl dbus dhcpcd
+# depends	: libressl libnl dbus readline ncurses
 
 name=wpa_supplicant
 version=2.9

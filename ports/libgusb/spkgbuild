@@ -1,6 +1,6 @@
 # description	: GObject wrappers for libusb-1.0
 # homepage	: https://github.com/hughsie/libgusb
-# depends	: libusb usbutils gobject-introspection vala meson
+# depends	: gobject-introspection vala glib libusb
 
 name=libgusb
 version=0.3.4

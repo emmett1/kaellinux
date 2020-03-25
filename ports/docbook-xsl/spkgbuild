@@ -1,6 +1,5 @@
 # description	: XML stylesheets for Docbook-xml transformations
 # homepage	: https://docbook.org/
-# depends	: libxml2
 
 name=docbook-xsl
 version=1.79.2

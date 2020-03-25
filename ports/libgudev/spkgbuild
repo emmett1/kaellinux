@@ -1,5 +1,5 @@
 # description	: GObject bindings for libudev
-# depends	: glib
+# depends	: gobject-introspection eudev glib
 
 name=libgudev
 version=233

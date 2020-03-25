@@ -1,6 +1,6 @@
 # description	: A MIME database
 # homepage	: https://freedesktop.org/Software/shared-mime-info
-# depends	: glib libxml2 intltool
+# depends	: libxml2 glib
 
 name=shared-mime-info
 version=1.10

@@ -1,6 +1,5 @@
 # description	: Generates a perfect hash function from a key set
 # homepage	: https://www.gnu.org/software/gperf/
-# depends	: gcc texinfo
 
 name=gperf
 version=3.1

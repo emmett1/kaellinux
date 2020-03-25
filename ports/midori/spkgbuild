@@ -1,5 +1,5 @@
 # description	: Lightweight web browser
-# depends	: cmake gcr webkitgtk vala gtk3 libsoup sqlite libpeas gst-plugins-base gst-plugins-good gst-libav json-glib libarchive
+# depends	: gobject-introspection sqlite libsoup glib webkitgtk gcr p11-kit libpeas gtk3 pango harfbuzz atk cairo gdk-pixbuf json-glib libarchive intltool
 
 name=midori
 version=9.0

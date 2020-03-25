@@ -1,6 +1,6 @@
 # description	: A netload plugin for the Xfce panel
 # homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-netload-plugin
-# depends	: xfce4-panel lm_sensors libnotify hicolor-icon-theme
+# depends	: libxfce4ui xfce4-panel gtk3 pango harfbuzz atk cairo glib libxfce4util libnotify gdk-pixbuf
 
 name=xfce4-sensors-plugin
 version=1.3.92

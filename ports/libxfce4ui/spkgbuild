@@ -1,6 +1,6 @@
 # description	: GTK+ 2 widgets that are used by other Xfce applications
 # homepage	: http://www.xfce.org/
-# depends	: gtk2 xfconf gtk3 startup-notification libxfce4util
+# depends	: gobject-introspection vala startup-notification gtk3 pango harfbuzz atk cairo gdk-pixbuf libsm libice libx11 libxfce4util xfconf glib gtk2 fontconfig freetype2
 
 name=libxfce4ui
 version=4.14.1

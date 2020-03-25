@@ -1,6 +1,6 @@
 # description	: Xfce file manager, a GTK+ 3 GUI to organise the files on your computer
 # homepage	: http://thunar.xfce.org/
-# depends	: exo libxfce4ui gnome-icon-theme libgudev libnotify libexif
+# depends	: gobject-introspection glib gtk3 pango harfbuzz atk cairo gdk-pixbuf exo libxfce4util xfconf libsm libice libx11 libexif pcre libxfce4ui xfce4-panel libgudev libnotify
 
 name=thunar
 version=1.8.12

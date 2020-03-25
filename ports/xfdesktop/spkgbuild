@@ -1,6 +1,6 @@
 # description	: Desktop manager for the Xfce Desktop Environment
 # homepage	: http://www.xfce.org/
-# depends	: exo libwnck3 libxfce4ui libnotify startup-notification thunar
+# depends	: xfconf libxfce4ui exo libxfce4util glib libwnck3 libsm libice libx11 gtk3 pango harfbuzz atk cairo gdk-pixbuf libnotify garcon thunar
 
 name=xfdesktop
 version=4.14.2

@@ -1,6 +1,6 @@
 # description	: Set of plug-ins that aren't up to par compared to the rest
 # homepage	: https://gstreamer.freedesktop.org/
-# depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch meson
+# depends	: gobject-introspection gst-plugins-base gstreamer glib libvdpau libx11 curl openjpeg2 libxml2 soundtouch librsvg cairo bzip2 lcms2 libdrm libressl pango wayland libdvdnav libdvdread nettle
 
 name=gst-plugins-bad
 version=1.16.2

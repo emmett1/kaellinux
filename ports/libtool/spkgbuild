@@ -1,6 +1,5 @@
 # description	: The GNU generic library support script
 # homepage	: https://www.gnu.org/software/libtool
-# depends	: bash tar gcc
 
 name=libtool
 version=2.4.6

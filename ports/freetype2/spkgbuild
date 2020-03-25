@@ -1,6 +1,6 @@
 # description	: Font rasterization library
 # homepage	: https://www.freetype.org/
-# depends	: libpng which
+# depends	: bzip2 libpng zlib
 
 name=freetype2
 version=2.10.1

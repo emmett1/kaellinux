@@ -1,6 +1,6 @@
 # description	: Interpreted language that may be embedded into an application to make the application extensible
 # homepage	: https://www.jedsoft.org/slang/
-# depends	: libpng pcre
+# depends	: libpng zlib pcre readline
 
 name=slang
 version=2.3.2

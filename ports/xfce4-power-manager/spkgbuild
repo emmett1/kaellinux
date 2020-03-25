@@ -1,6 +1,6 @@
 # description	: Power manager for the Xfce desktop
 # homepage	: http://www.xfce.org/
-# depends	: libnotify upower xfce4-panel
+# depends	: libxfce4util glib libxrandr libsm libice libx11 xfce4-panel libxfce4ui xfconf gtk3 pango harfbuzz atk cairo gdk-pixbuf upower libnotify libxext
 
 name=xfce4-power-manager
 version=1.7.0

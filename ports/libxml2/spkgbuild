@@ -1,6 +1,6 @@
 # description	: Contains libraries and utilities used for parsing XML files
 # homepage	: http://www.xmlsoft.org/
-# depends	: icu python3
+# depends	: icu zlib xz readline ncurses
 
 name=libxml2
 version=2.9.10

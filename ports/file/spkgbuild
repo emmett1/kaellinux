@@ -1,6 +1,6 @@
 # description	: Utility for determining the type of a given file or files
 # homepage	: https://www.darwinsys.com/file/
-# depends	: zlib
+# depends	: xz bzip2 zlib
 
 name=file
 version=5.38

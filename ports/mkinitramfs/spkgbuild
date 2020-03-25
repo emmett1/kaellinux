@@ -1,5 +1,4 @@
 # description	: Modular initramfs image creation utility
-# depends	: libarchive bash
 
 name=mkinitramfs
 version=20200118

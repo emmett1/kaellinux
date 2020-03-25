@@ -1,6 +1,6 @@
 # description	: The GNU Database Manager
 # homepage	: https://www.gnu.org/software/gdbm/gdbm.html
-# depends	: bash
+# depends	: readline ncurses
 
 name=gdbm
 version=1.18.1

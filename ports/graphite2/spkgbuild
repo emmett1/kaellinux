@@ -1,6 +1,6 @@
 # description	: Rendering engine for graphite fonts
 # homepage	: https://github.com/silnrsi/graphite
-# depends	: cmake freetype2
+# depends	: cmake
 
 name=graphite2
 version=1.3.13
@@ -17,7 +17,6 @@ build() {
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr \
 	      ..
-
 	make
 	make DESTDIR=$PKG install
 }

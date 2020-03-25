@@ -1,6 +1,6 @@
 # description	: Modern toolset used for generating Makefiles
 # homepage	: https://cmake.org/
-# depends	: curl libarchive libuv
+# depends	: expat zlib libarchive libuv curl ncurses
 
 name=cmake
 version=3.17.0

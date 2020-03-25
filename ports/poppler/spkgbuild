@@ -1,6 +1,6 @@
 # description	: PDF rendering library and command line tools used to manipulate PDF files
 # homepage	: https://poppler.freedesktop.org/
-# depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 poppler-data
+# depends	: freetype2 fontconfig libjpeg-turbo zlib curl openjpeg2 lcms2 libpng libtiff nss nspr cmake cairo
 
 name=poppler
 version=0.86.1

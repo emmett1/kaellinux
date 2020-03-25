@@ -1,6 +1,6 @@
 # description	: Plugin to track time for the Xfce4 panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-timer-plugin
-# depends	: xfce4-panel intltool
+# depends	: libxfce4ui xfce4-panel gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4util
 
 name=xfce4-timer-plugin
 version=1.7.0

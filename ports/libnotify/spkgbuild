@@ -1,6 +1,6 @@
 # description	: Used to send desktop notifications to a notification daemon
 # homepage	: https://developer.gnome.org/notification-spec/
-# depends	: gtk3 gobject-introspection docbook-xsl
+# depends	: gobject-introspection gdk-pixbuf glib gtk3 libxslt docbook-xsl
 
 name=libnotify
 version=0.7.9

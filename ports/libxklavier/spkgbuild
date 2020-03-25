@@ -1,6 +1,6 @@
 # description	: Utility library for X keyboard
 # homepage	: http://gswitchit.sourceforge.net/
-# depends	: glib iso-codes libxml2 libxi libxkbfile gobject-introspection libxfixes
+# depends	: gobject-introspection vala libxml2 glib libxi libxkbfile libx11 iso-codes
 
 name=libxklavier
 version=5.4

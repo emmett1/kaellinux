@@ -1,6 +1,6 @@
 # description	: freedesktop.org backend for WPE WebKit
 # homepage	: https://wpewebkit.org/
-# depends	: libwpe
+# depends	: glib libglvnd wayland libwpe libxkbcommon cmake
 
 name=wpebackend-fdo
 version=1.6.0

@@ -1,5 +1,4 @@
 # description	: Tools and library to manipulate EFI variables
-# depends	: popt
 
 name=efivar
 version=37

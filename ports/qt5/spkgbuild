@@ -1,8 +1,5 @@
 # description	: Cross-platform application framework that is widely used for developing application
-# depends	: sqlite dbus harfbuzz glib icu jasper libjpeg-turbo libmng libpng libinput
-# depends	: libxrender libsm libxi libtiff libxkbcommon mesa mtdev openssl pcre2 wayland
-# depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm alsa-lib python3
-# depends	: gst-plugins-base cups
+# depends	: libglvnd fontconfig freetype2 zlib libx11 libxcb xcb-util-wm xcb-util-image xcb-util-keysyms xcb-util-renderutil libxext libsm libice libxkbcommon glib alsa-lib gst-plugins-base gstreamer nss nspr libjpeg-turbo libpng libwebp expat harfbuzz libxcomposite libxcursor libxdamage libxfixes libxi libxrender libxtst libxrandr libxscrnsaver dbus libvpx opus libxml2 libxslt lcms2 eudev wayland mtdev libinput gtk3 pango atk cairo gdk-pixbuf sqlite libdrm cups libressl sdl2 jasper libtiff libmng mesa icu gst-plugins-bad zstd llvm bluez pcre2
 
 name=qt5
 version=5.14.1

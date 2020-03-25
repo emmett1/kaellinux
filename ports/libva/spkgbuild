@@ -1,5 +1,5 @@
 # description	: Library which provides access to hardware accelerated video processing
-# depends	: mesa libdrm meson
+# depends	: libdrm wayland libglvnd libx11 libxext libxfixes
 
 name=libva
 version=2.6.1

@@ -1,5 +1,6 @@
 # description	: Perl Compatible Regular Expression libraries
 # homepage	: https://www.pcre.org/
+# depends	: zlib bzip2 readline
 
 name=pcre
 version=8.44

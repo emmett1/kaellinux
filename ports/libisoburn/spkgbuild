@@ -1,6 +1,6 @@
 # description	: frontend for libraries libburn and libisofs
 # homepage	: http://libburnia-project.org/
-# depends	: libburn libisofs
+# depends	: libisofs libburn zlib acl readline
 
 name=libisoburn
 version=1.5.2

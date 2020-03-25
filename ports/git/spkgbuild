@@ -1,6 +1,6 @@
 # description	: Version control system designed to handle everything from small to very large projects with speed and efficiency
 # homepage	: https://git-scm.com/
-# depends	: curl openssl python2
+# depends	: zlib curl expat libressl
 
 name=git
 version=2.26.0

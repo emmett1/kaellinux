@@ -1,6 +1,6 @@
 # description	: Used to set up transparent encryption of block devices using the kernel crypto API
 # homepage	: https://gitlab.com/cryptsetup/cryptsetup/
-# depends	: libgcrypt nettle nss openssl popt json-c
+# depends	: popt util-linux lvm2 libressl json-c
 
 name=cryptsetup
 version=2.3.1

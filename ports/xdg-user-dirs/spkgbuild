@@ -1,6 +1,5 @@
 # description	: Manage user directories
 # homepage	: https://www.freedesktop.org/wiki/Software/xdg-user-dirs
-# depends	: docbook-xsl
 
 name=xdg-user-dirs
 version=0.17
@@ -9,7 +8,11 @@ source="http://user-dirs.freedesktop.org/releases/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-nls \
+		--disable-documentation
 	make
 	make DESTDIR=$PKG install
 }

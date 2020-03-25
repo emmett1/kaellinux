@@ -1,6 +1,6 @@
 # description	: Contains a library which implements the VDPAU library
 # homepage	: http://cgit.freedesktop.org/~aplattner/libvdpau
-# depends	: meson
+# depends	: libx11 libxext
 
 name=libvdpau
 version=1.3

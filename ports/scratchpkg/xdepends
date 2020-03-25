@@ -10,6 +10,10 @@ get_libpath() {
 
 pkgquery files $1 | while read -r line; do
 	case $line in
+		usr/share/gir-1.0/) extra_dep="gobject-introspection";;
+		usr/share/vala/) extra_dep="$extra_dep vala";;
+	esac
+	case $line in
 		*/) continue;;
 	esac
 	case "$(file -bi /$line)" in
@@ -24,6 +28,9 @@ pkgquery files $1 | while read -r line; do
 				[ "$libs" ] || continue
 				if ! echo $all_libs | grep -qw $libs; then
 					pkg=$(pkgquery provide $libs$ | awk '{print $1}' | head -n1)
+					case $pkg in
+						$1) continue;;
+					esac
 					if ! echo $all_pkgs | grep -qw $pkg; then
 						echo $pkg
 						all_pkgs="$all_pkgs $pkg"
@@ -34,4 +41,14 @@ pkgquery files $1 | while read -r line; do
 				fi
 			done ;;
 	esac
+	[ "$extra_dep" ] && {
+		for e in $extra_dep; do
+			if ! echo $all_pkgs | grep -qw $e; then
+				echo $e
+				all_pkgs="$all_pkgs $e"
+			fi
+		done
+	}
 done
+
+exit 0

@@ -1,5 +1,5 @@
 # description	: Free version of the SSH connectivity tools
-# depends	: openssl xauth
+# depends	: libressl zlib
 
 name=openssh
 version=8.2p1

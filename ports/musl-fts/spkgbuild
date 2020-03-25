@@ -1,6 +1,5 @@
 # description	: Implementation of fts for musl libc
 # homepage	: https://github.com/pullmoll/musl-fts
-# depends	: 
 
 name=musl-fts
 version=1.2.7

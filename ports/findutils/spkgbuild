@@ -1,6 +1,5 @@
 # description	: Programs to find files
 # homepage	: https://www.gnu.org/software/findutils
-# depends	: bash
 
 name=findutils
 version=4.7.0

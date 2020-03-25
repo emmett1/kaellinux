@@ -1,5 +1,5 @@
 # description	: The GRand Unified Bootloader (EFI)
-# depends	: grub efivar efibootmgr
+# depends	: python3
 
 name=grub-efi
 version=2.04

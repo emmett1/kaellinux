@@ -1,6 +1,6 @@
 # description	: Disk partitioning and partition resizing tool
 # homepage	: https://www.gnu.org/software/parted/parted.html
-# depends	: lvm2
+# depends	: readline ncurses lvm2 util-linux
 
 name=parted
 version=3.3

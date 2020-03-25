@@ -1,5 +1,5 @@
 # description	: Python2 bindings for PyGObject3
-# depends	: python-gobject3-common
+# depends	: glib cairo gobject-introspection libffi python2 python2-cairo
 
 name=python2-gobject3
 version=3.36.0

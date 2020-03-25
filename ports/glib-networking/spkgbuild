@@ -1,5 +1,5 @@
 # description	: Network related gio modules for GLib
-# depends	: glib gnutls gsettings-desktop-schemas p11-kit meson
+# depends	: glib gnutls
 
 name=glib-networking
 version=2.64.0

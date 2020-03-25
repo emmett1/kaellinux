@@ -1,5 +1,6 @@
 # description	: library for CD-ROM and CD image access
 # homepage	: https://www.gnu.org/software/libcdio/
+# depends	: ncurses
 
 name=libcdio
 version=2.1.0

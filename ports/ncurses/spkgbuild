@@ -1,6 +1,5 @@
 # description	: Libraries for terminal-independent handling of character screens
 # homepage	: https://invisible-island.net/ncurses/ncurses.html
-# depends	: gcc
 
 name=ncurses
 version=6.2

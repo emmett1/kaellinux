@@ -1,6 +1,6 @@
 # description	: OpenType text shaping engine (ICU integration)
 # homepage	: https://www.freedesktop.org/wiki/Software/HarfBuzz/
-# depends	: harfbuzz icu
+# depends	: icu harfbuzz glib freetype2
 
 name=harfbuzz-icu
 version=2.6.4

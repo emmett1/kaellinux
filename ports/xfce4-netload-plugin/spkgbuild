@@ -1,6 +1,6 @@
 # description	: A netload plugin for the Xfce panel
 # homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-netload-plugin
-# depends	: xfce4-panel intltool
+# depends	: xfce4-panel glib libxfce4ui gtk3 pango harfbuzz atk cairo gdk-pixbuf libxfce4util
 
 name=xfce4-netload-plugin
 version=1.3.2

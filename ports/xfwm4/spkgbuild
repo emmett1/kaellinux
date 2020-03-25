@@ -1,6 +1,6 @@
 # description	: Window manager for Xfce
 # homepage	: http://www.xfce.org/
-# depends	: libwnck3 libxfce4ui libxfce4util startup-notification
+# depends	: libxfce4util libsm libice libx11 libxext libxi gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4ui xfconf libwnck3 libxcomposite libxdamage libxfixes libepoxy startup-notification libxrandr libxrender libxinerama
 
 name=xfwm4
 version=4.14.0

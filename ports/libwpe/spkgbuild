@@ -1,6 +1,6 @@
 # description	: General-purpose library for WPE WebKit
 # homepage	: https://wpewebkit.org/
-# depends	: cmake mesa
+# depends	: libxkbcommon cmake mesa
 
 name=libwpe
 version=1.6.0

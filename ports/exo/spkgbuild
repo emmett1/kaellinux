@@ -1,6 +1,6 @@
 # description	: Support library used in the Xfce desktop
 # homepage	: http://www.xfce.org/
-# depends	: libxfce4ui libxfce4util perl-uri
+# depends	: gtk2 pango atk cairo gdk-pixbuf glib harfbuzz fontconfig freetype2 libsm libice libx11 libxfce4util libxfce4ui gtk3 perl-uri
 
 name=exo
 version=0.12.11

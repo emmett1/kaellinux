@@ -1,6 +1,6 @@
 # description	: CPU frequency plugin for the Xfce4 panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-cpufreq-plugin
-# depends	: xfce4-panel intltool
+# depends	: xfce4-panel glib libxfce4ui gtk3 pango harfbuzz atk cairo gdk-pixbuf libxfce4util
 
 name=xfce4-cpufreq-plugin
 version=1.2.1

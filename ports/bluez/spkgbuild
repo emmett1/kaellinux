@@ -1,6 +1,6 @@
 # description	: Bluetooth protocol stack for Linux
 # homepage	: http://www.bluez.org/
-# depends	: dbus glib libical
+# depends	: eudev libical dbus glib readline
 
 name=bluez
 version=5.54

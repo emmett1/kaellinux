@@ -1,6 +1,6 @@
 # description	: The Rust programming language is designed to be a safe, concurrent, practical language
 # homepage	: https://www.rust-lang.org
-# depends	: curl cmake python3 llvm libssh2
+# depends	: zlib ncurses llvm libressl
 
 name=rust
 version=1.41.0

@@ -1,6 +1,6 @@
 # description	: Programs for finding and viewing man pages
 # homepage	: https://www.nongnu.org/man-db/
-# depends	: bash gdbm groff less libpipeline zlib
+# depends	: gdbm zlib libpipeline
 
 name=man-db
 version=2.9.1

@@ -1,6 +1,6 @@
 # description	: Shows information about local weather in the xfce4 panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-weather-plugin
-# depends	: xfce4-panel intltool
+# depends	: upower xfce4-panel glib libxfce4ui libxfce4util gtk3 pango harfbuzz atk cairo gdk-pixbuf libxml2 libsoup
 
 name=xfce4-weather-plugin
 version=0.10.1

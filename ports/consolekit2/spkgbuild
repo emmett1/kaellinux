@@ -1,6 +1,6 @@
 # description	: Framework for keeping track of the various users, sessions, and seats present on a system
 # homepage	: https://github.com/ConsoleKit2/ConsoleKit2
-# depends	: dbus-glib linux-pam polkit libx11
+# depends	: linux-pam dbus gobject-introspection glib polkit eudev acl libx11 zlib
 
 name=consolekit2
 version=1.2.1

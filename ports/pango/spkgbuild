@@ -1,6 +1,6 @@
 # description	: Library for laying out and rendering of text, with an emphasis on internationalization
 # homepage	: https://www.pango.org/
-# depends	: cairo harfbuzz fribidi fontconfig glib gobject-introspection meson
+# depends	: gobject-introspection glib harfbuzz fontconfig freetype2 fribidi cairo
 
 name=pango
 version=1.44.7

@@ -1,5 +1,5 @@
 # description	: library providing serialization and deserialization support for the JavaScript Object Notation (JSON) format
-# depends	: glib gobject-introspection meson
+# depends	: gobject-introspection glib
 
 name=json-glib
 version=1.4.4

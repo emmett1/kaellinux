@@ -1,5 +1,5 @@
 # description	: Xfce4 Panel
-# depends	: exo garcon libwnck3 libxfce4ui xfconf
+# depends	: gobject-introspection vala xfconf libxfce4ui gtk3 glib libxfce4util cairo gdk-pixbuf pango harfbuzz atk exo garcon libsm libice libx11 libwnck3 libxext gtk2 fontconfig freetype2
 
 name=xfce4-panel
 version=4.14.3

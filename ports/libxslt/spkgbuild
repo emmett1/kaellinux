@@ -1,6 +1,6 @@
 # description	: XSLT libraries used for extending libxml2 libraries to support XSLT files
 # homepage	: http://xmlsoft.org/libxslt/
-# depends	: libxml2 libgcrypt python2
+# depends	: libxml2 libgcrypt libgpg-error python2
 
 name=libxslt
 version=1.1.34

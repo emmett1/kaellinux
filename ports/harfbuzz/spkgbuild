@@ -1,6 +1,6 @@
 # description	: OpenType text shaping engine
 # homepage	: https://www.freedesktop.org/wiki/Software/HarfBuzz/
-# depends	: glib freetype2 graphite2
+# depends	: gobject-introspection glib freetype2 graphite2 cairo
 
 name=harfbuzz
 version=2.6.4

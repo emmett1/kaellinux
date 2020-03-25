@@ -1,5 +1,5 @@
 # description	: HTTP client/server library for GNOME
-# depends	: glib-networking libxml2 sqlite gobject-introspection vala meson libpsl
+# depends	: gobject-introspection vala glib libxml2 sqlite libpsl zlib glib-networking
 
 name=libsoup
 version=2.70.0

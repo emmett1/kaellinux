@@ -1,6 +1,6 @@
 # description	: Next generation of the python high-level scripting language
 # homepage	: https://www.python.org/
-# depends	: libffi openssl sqlite
+# depends	: libressl gdbm zlib libffi expat readline bzip2 ncurses sqlite
 
 name=python2
 version=2.7.17

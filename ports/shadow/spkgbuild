@@ -1,6 +1,6 @@
 # description	: Programs for handling passwords in a secure way
 # homepage	: https://github.com/shadow-maint/shadow
-# depends	: acl bash
+# depends	: acl attr
 
 name=shadow
 version=4.8.1

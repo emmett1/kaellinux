@@ -1,6 +1,6 @@
 # description	: The Bourne-Again SHell
 # homepage	: https://www.gnu.org/software/bash/bash.html
-# depends	: ncurses readline
+# depends	: readline ncurses
 
 name=bash
 version=5.0

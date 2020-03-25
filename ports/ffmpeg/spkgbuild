@@ -1,6 +1,6 @@
 # description	: FFmpeg is a solution to record, convert and stream audio and video
 # homepage	: https://ffmpeg.org/
-# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm
+# depends	: libva libvdpau libx11 bzip2 zlib gnutls libvpx xz fdk-aac lame opus libtheora libvorbis x264 x265 libxcb alsa-lib sdl2 libxv libxext libass freetype2
 
 name=ffmpeg
 version=4.2.2

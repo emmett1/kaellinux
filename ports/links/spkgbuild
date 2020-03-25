@@ -1,6 +1,6 @@
 # description	: Text and graphics mode WWW browser
 # homepage	: http://links.twibright.com/
-# depends	: 
+# depends	: xz bzip2 zlib libressl gpm
 
 name=links
 version=2.20.2

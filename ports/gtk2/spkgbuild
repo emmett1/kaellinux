@@ -1,6 +1,6 @@
 # description	: GObject-based multi-platform GUI toolkit (legacy)
 # homepage	: http://www.gtk.org/
-# depends	: atk gdk-pixbuf pango hicolor-icon-theme adwaita-icon-theme libx11
+# depends	: gobject-introspection glib libxrender libxinerama libxrandr libxcursor libxext pango libx11 libxcomposite libxdamage libxfixes atk cairo gdk-pixbuf harfbuzz fontconfig freetype2
 
 name=gtk2
 version=2.24.32

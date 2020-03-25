@@ -1,6 +1,6 @@
 # description	: GLib interfaces to the D-Bus API
 # homepage	: https://www.freedesktop.org/wiki/Software/DBusBindings
-# depends	: dbus glib
+# depends	: dbus glib expat
 
 name=dbus-glib
 version=0.110

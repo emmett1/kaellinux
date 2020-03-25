@@ -1,6 +1,6 @@
 # description	: An archiving program
 # homepage	: https://www.gnu.org/software/tar/tar.html
-# depends	: acl attr
+# depends	: acl
 
 name=tar
 version=1.32

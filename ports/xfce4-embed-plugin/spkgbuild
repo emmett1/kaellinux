@@ -1,6 +1,6 @@
 # description	: Enables the embedding of arbitrary application windows into the Xfce panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-embed-plugin
-# depends	: xfce4-panel intltool
+# depends	: libxfce4ui xfce4-panel gtk2 pango atk cairo gdk-pixbuf glib harfbuzz fontconfig freetype2 libxfce4util libsm libice libx11
 
 name=xfce4-embed-plugin
 version=1.6.0

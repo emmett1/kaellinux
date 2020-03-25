@@ -1,6 +1,6 @@
 # description	: Window Navigator Construction Kit
 # homepage	: https://developer.gnome.org/libwnck/stable/
-# depends	: gtk3 startup-notification gobject-introspection meson
+# depends	: gobject-introspection glib gtk3 pango atk cairo gdk-pixbuf startup-notification libx11 libxres
 
 name=libwnck3
 version=3.32.0

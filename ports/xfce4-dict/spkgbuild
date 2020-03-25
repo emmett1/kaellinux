@@ -1,6 +1,6 @@
 # description	: A dictionary plugin for the Xfce panel
 # homepage	: https://goodies.xfce.org/projects/applications/xfce4-dict
-# depends	: xfce4-panel intltool
+# depends	: libx11 xfce4-panel glib libxfce4ui gtk3 pango harfbuzz atk cairo gdk-pixbuf libxfce4util
 
 name=xfce4-dict
 version=0.8.3

@@ -1,5 +1,4 @@
 # description	: Certificate Authority certificates
-# depends	: p11-kit libressl
 
 name=ca-certificates
 version=20191213

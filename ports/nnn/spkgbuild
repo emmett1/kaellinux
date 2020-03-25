@@ -1,6 +1,6 @@
 # description	: Free, fast, friendly file browser
 # homepage	: https://github.com/jarun/nnn
-# depends	: ncurses readline
+# depends	: readline ncurses
 
 name=nnn
 version=3.0

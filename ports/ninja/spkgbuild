@@ -1,6 +1,5 @@
 # description	: Small build system with a focus on speed
 # homepage	: https://ninja-build.org/
-# depends	: python3
 
 name=ninja
 version=1.10.0

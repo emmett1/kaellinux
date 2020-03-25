@@ -1,5 +1,5 @@
 # description	: Provides the set of accessibility interfaces that are implemented by other toolkits and applications
-# depends	: glib gobject-introspection meson
+# depends	: gobject-introspection glib
 
 name=atk
 version=2.34.1

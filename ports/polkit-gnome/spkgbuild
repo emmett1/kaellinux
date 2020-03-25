@@ -1,6 +1,6 @@
 # description	: Authentication Agent for Polkit that integrates well with the GNOME Desktop environment
 # homepage	: https://www.freedesktop.org/wiki/Software/polkit/
-# depends	: gtk3 polkit
+# depends	: gtk3 pango harfbuzz atk cairo gdk-pixbuf polkit glib
 
 name=polkit-gnome
 version=0.105

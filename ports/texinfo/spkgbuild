@@ -1,6 +1,6 @@
 # description	: Programs for reading, writing, and converting info pages
 # homepage	: https://www.gnu.org/software/texinfo/
-# depends	: gzip ncurses perl bash
+# depends	: ncurses
 
 name=texinfo
 version=6.7

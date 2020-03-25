@@ -1,5 +1,6 @@
 # description	: Small-footprint color management engine, with special focus on accuracy and performance
 # homepage	: http://www.littlecms.com/
+# depends	: libtiff libjpeg-turbo zlib
 
 name=lcms2
 version=2.9

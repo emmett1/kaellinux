@@ -1,6 +1,6 @@
 # description	: Streaming media framework that enables applications to share a common set of plugins
 # homepage	: https://gstreamer.freedesktop.org/
-# depends	: glib gobject-introspection meson libcap
+# depends	: gobject-introspection glib libcap
 
 name=gstreamer
 version=1.16.2

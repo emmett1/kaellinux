@@ -1,6 +1,6 @@
 # description	: Generate scripting interfaces to C/C++ code
 # homepage	: http://www.swig.org/
-# depends	: pcre
+# depends	: pcre zlib
 
 name=swig
 version=4.0.1

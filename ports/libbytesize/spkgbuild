@@ -1,6 +1,6 @@
 # description	: Library facilitates the common operations with sizes in bytes
 # homepage	: https://github.com/rhinstaller/libbytesize
-# depends	: pcre2
+# depends	: mpfr pcre2 gmp
 
 name=libbytesize
 version=2.2

@@ -1,6 +1,6 @@
 # description	: Library for handling OpenGL function pointer management
 # homepage	: https://github.com/anholt/libepoxy
-# depends	: mesa meson
+# depends	: libglvnd meson
 
 name=libepoxy
 version=1.5.4

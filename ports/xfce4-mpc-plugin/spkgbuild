@@ -1,6 +1,6 @@
 # description	: Simple client plugin for Music Player Daemon
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-mpc-plugin
-# depends	: xfce4-panel intltool libmpd
+# depends	: libxfce4ui xfce4-panel gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4util
 
 name=xfce4-mpc-plugin
 version=0.5.2

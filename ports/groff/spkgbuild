@@ -1,6 +1,5 @@
 # description	: Programs for processing and formatting text
 # homepage	: https://www.gnu.org/software/groff/groff.html
-# depends	: gcc perl
 
 name=groff
 version=1.22.4

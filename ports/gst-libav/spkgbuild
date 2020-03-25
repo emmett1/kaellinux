@@ -1,5 +1,5 @@
 # description	: GStreamer plugins for Libav (a fork of FFmpeg)
-# depends	: gst-plugins-base ffmpeg yasm
+# depends	: gst-plugins-base gstreamer glib zlib bzip2 xz yasm
 
 name=gst-libav
 version=1.16.2

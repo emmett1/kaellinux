@@ -1,6 +1,6 @@
 # description	: Set of tools that manage logical partitions
 # homepage	: https://sourceware.org/lvm2/
-# depends	: libaio
+# depends	: eudev util-linux libaio readline
 
 name=lvm2
 version=2.02.185

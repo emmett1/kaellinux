@@ -1,5 +1,6 @@
 # description	: New generation of the Perl Compatible Regular Expression libraries
 # homepage	: https://www.pcre.org/
+# depends	: readline zlib bzip2
 
 name=pcre2
 version=10.34

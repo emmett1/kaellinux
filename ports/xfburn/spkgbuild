@@ -1,5 +1,5 @@
 # description	: GTK+ 2 GUI frontend for Libisoburn
-# depends	: exo libxfce4util libisoburn
+# depends	: libburn libisofs libxfce4ui exo libxfce4util glib gtk3 pango harfbuzz atk cairo gdk-pixbuf gst-plugins-base gstreamer libgudev
 
 name=xfburn
 version=0.6.2

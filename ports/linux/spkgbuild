@@ -1,5 +1,5 @@
 # description	: Linux kernel, sources and modules
-# depends	: elfutils mkinitramfs libressl linux-firmware yaml
+# depends	: yaml elfutils
 
 name=linux
 version=5.4.23

@@ -1,6 +1,5 @@
 # description	: Programs for compressing and decompressing files
 # homepage	: https://sources.redhat.com/bzip2
-# depends	: bash
 
 name=bzip2
 version=1.0.8

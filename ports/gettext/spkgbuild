@@ -1,6 +1,5 @@
 # description	: Utilities for internationalization and localization
 # homepage	: https://www.gnu.org/software/gettext/
-# depends	: acl gcc bash
 
 name=gettext
 version=0.20.1

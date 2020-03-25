@@ -1,6 +1,6 @@
 # description	: Interface to enumerating power devices, listening to device events and querying history and statistics
 # homepage	: https://upower.freedesktop.org/
-# depends	: dbus-glib libgudev libusb polkit gobject-introspection
+# depends	: gobject-introspection glib libusb libgudev
 
 name=upower
 version=0.99.11

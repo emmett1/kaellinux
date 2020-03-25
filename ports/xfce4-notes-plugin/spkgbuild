@@ -1,6 +1,6 @@
 # description	: Notes plugin for xfce4 panel
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-notes-plugin
-# depends	: xfce4-panel intltool libunique
+# depends	: libsm libice libx11 libxfce4util xfconf libunique gtk2 pango atk cairo gdk-pixbuf glib harfbuzz fontconfig freetype2 libxfce4ui xfce4-panel
 
 name=xfce4-notes-plugin
 version=1.8.1

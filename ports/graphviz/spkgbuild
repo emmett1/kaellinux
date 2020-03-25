@@ -1,5 +1,5 @@
 # description	: Graph visualization software
-# depends	: pango cairo fontconfig gtk2 poppler-glib
+# depends	: libtool expat zlib pango cairo glib harfbuzz fontconfig freetype2 libxrender libx11 poppler-glib gtk2 atk gdk-pixbuf libxaw libsm libice libxpm libxt libxmu libxext
 
 name=graphviz
 version=2.40.1

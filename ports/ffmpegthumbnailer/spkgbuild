@@ -1,6 +1,6 @@
 # description	: Lightweight video thumbnailer that can be used by file managers
 # homepage	: https://github.com/dirkvdb/ffmpegthumbnailer
-# depends	: ffmpeg libjpeg-turbo libpng cmake
+# depends	: ffmpeg libjpeg-turbo libpng zlib
 
 name=ffmpegthumbnailer
 version=2.2.2

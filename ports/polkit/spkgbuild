@@ -1,6 +1,6 @@
 # description	: Toolkit for defining and handling authorizations
 # homepage	: https://www.freedesktop.org/wiki/Software/polkit
-# depends	: glib js60 linux-pam gobject-introspection
+# depends	: gobject-introspection glib expat js60 linux-pam intltool
 
 name=polkit
 version=0.116
@@ -23,6 +23,4 @@ build() {
 		    --disable-man-pages
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/locale
 }

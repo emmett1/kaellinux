@@ -1,6 +1,6 @@
 # description	: Library used for reading, writing and manipulating audio file tags
 # homepage	: http://taglib.github.io/
-# depends	: cmake
+# depends	: zlib cmake
 
 name=taglib
 version=1.11.1

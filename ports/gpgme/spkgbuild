@@ -1,6 +1,6 @@
 # description	: C library that allows cryptography support to be added to a program
 # homepage	: https://www.gnupg.org/related_software/gpgme/
-# depends	: libassuan
+# depends	: libassuan libgpg-error
 
 name=gpgme
 version=1.13.1

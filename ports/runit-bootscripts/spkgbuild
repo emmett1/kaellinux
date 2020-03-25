@@ -1,5 +1,4 @@
 # description	: Runit bootscripts
-# depends	: runit procps-ng
 
 name=runit-bootscripts
 version=20200118

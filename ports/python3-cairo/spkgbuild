@@ -1,6 +1,6 @@
 # description	: Python3 bindings to Cairo
 # homepage	: https://pycairo.readthedocs.io/en/latest/
-# depends	: python3 cairo
+# depends	: cairo
 
 name=python3-cairo
 version=1.19.1

@@ -1,6 +1,6 @@
 # description	: Clipboard manager for Xfce
 # homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-clipman-plugin
-# depends	: xfce4-panel intltool
+# depends	: libsm libice libx11 libxtst libxfce4ui xfce4-panel gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4util xfconf
 
 name=xfce4-clipman-plugin
 version=1.4.4

@@ -1,5 +1,6 @@
 # description	: Programs for basic and advanced IPV4-based networking
 # homepage	: https://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+# depends	: elfutils libcap
 
 name=iproute2
 version=5.5.0

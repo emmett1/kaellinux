@@ -1,5 +1,5 @@
 # description	: Library and tools used to manipulate, convert and view Scalable Vector Graphic (SVG) images
-# depends	: gdk-pixbuf libcroco pango gtk3 gobject-introspection vala rust
+# depends	: gobject-introspection vala libpng zlib cairo gdk-pixbuf glib libxml2 pango harfbuzz fontconfig freetype2 rust
 
 name=librsvg
 version=2.48.0

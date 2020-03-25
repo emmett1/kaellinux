@@ -1,6 +1,6 @@
 # description	: A library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result
 # homepage	: http://www.multiprecision.org/
-# depdends	: mpfr
+# depends	: mpfr gmp
 
 name=libmpc
 version=1.1.0

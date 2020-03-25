@@ -1,6 +1,6 @@
 # description	: keymap compiler and support library
 # homepage	: https://xkbcommon.org/
-# depends	: xkeyboard-config libxcb meson
+# depends	: libxcb wayland-protocols meson
 
 name=libxkbcommon
 version=0.10.0

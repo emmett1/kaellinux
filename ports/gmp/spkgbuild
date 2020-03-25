@@ -1,6 +1,5 @@
 # description	: Contains math libraries that useful functions for arbitrary precision arithmetic
 # homepage	: https://gmplib.org/
-# depends	: gcc bash
 
 name=gmp
 version=6.2.0

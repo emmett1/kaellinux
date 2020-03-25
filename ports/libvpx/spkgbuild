@@ -1,6 +1,6 @@
 # description	: Implementations of the VP8 Codec, used in most current html5 video, and of the next-generation VP9 Codec
 # homepage	: https://www.webmproject.org/
-# depends	: yasm which
+# depends	: yasm
 
 name=libvpx
 version=1.8.2
@@ -13,9 +13,13 @@ build() {
 	mkdir libvpx-build
 	cd    libvpx-build
 
-	../configure --prefix=/usr    \
- 	            --enable-shared  \
- 	            --disable-static
+	../configure \
+		--prefix=/usr \
+		--enable-shared \
+		--disable-static \
+		--as=yasm \
+		--disable-install-docs \
+		--disable-install-srcs
 	make
 	make DESTDIR=$PKG install
 }

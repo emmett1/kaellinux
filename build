@@ -357,13 +357,13 @@ main() {
 	setup_pkgbuildconf
 	build_base
 	
-	[ "$UMOUNT" = 1 ] && umount_any_mounted	
-	[ "$CHROOT" = 1 ] && enter_chroot	
-	[ "$SYSUP" = 1 ] && sysup_rootfs	
-	[ "$REBASE" = 1 ] && rebase_rootfs	
-	[ "$RFS" = 1 ] && build_rootfs	
+	[ "$UMOUNT" = 1 ] && umount_any_mounted
+	[ "$CHROOT" = 1 ] && enter_chroot
+	[ "$SYSUP" = 1 ] && sysup_rootfs
+	[ "$REBASE" = 1 ] && rebase_rootfs
+	[ "$RFS" = 1 ] && build_rootfs
 	[ "$PKG" ] && {
-		chrootbuild || exit 1	
+		chrootbuild || exit 1
 	}
 	[ "$LIVE" = 1 ] && build_livecd
 }

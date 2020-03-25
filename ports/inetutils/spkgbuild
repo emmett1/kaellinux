@@ -1,5 +1,6 @@
 # description	: Programs for basic networking
 # homepage	: https://www.gnu.org/software/inetutils/
+# depends	: ncurses
 
 name=inetutils
 version=1.9.4

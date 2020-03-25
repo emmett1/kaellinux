@@ -1,5 +1,6 @@
 # description	: An MP3 encoder and optionally, an MP3 frame analyzer
 # homepage	: http://lame.sourceforge.net/
+# depends	: ncurses
 
 name=lame
 version=3.100

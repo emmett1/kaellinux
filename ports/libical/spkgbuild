@@ -1,5 +1,5 @@
 # description	: Implementation of the iCalendar protocols and data formats
-# depends	: cmake gobject-introspection vala
+# depends	: gobject-introspection vala icu glib ninja
 
 name=libical
 version=3.0.8
@@ -18,7 +18,7 @@ build() {
 	      -DENABLE_GTK_DOC=OFF        \
 	      -DGOBJECT_INTROSPECTION=true \
 	      -DICAL_GLIB_VAPI=true \
-	      ..
-	make
-	make DESTDIR=$PKG install
+	      -G Ninja ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

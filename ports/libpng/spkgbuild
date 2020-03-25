@@ -1,5 +1,6 @@
 # description	: A collection of routines used to create PNG format graphics files
 # homepage	: http://www.libpng.org/pub/png/libpng.html
+# depends	: zlib
 
 name=libpng
 version=1.6.37

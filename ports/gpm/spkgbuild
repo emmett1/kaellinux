@@ -1,5 +1,6 @@
 # description	: Mouse server for the console and xterm
 # homepage	: https://www.nico.schottelius.org/software/gpm/
+# depends	: ncurses
 
 name=gpm
 version=1.20.7

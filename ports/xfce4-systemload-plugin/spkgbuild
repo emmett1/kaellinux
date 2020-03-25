@@ -1,6 +1,6 @@
 # description	: A system load plugin for the Xfce4 panel
 # homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-systemload-plugin
-# depends	: xfce4-panel intltool
+# depends	: libxfce4ui xfce4-panel gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4util upower
 
 name=xfce4-systemload-plugin
 version=1.2.3

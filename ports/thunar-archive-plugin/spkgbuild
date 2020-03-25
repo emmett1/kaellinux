@@ -1,6 +1,6 @@
 # description	: Create and extract archives in Thunar
 # homepage	: http://goodies.xfce.org/projects/thunar-plugins/thunar-archive-plugin
-# depends	: hicolor-icon-theme thunar intltool
+# depends	: thunar exo gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libxfce4util
 
 name=thunar-archive-plugin
 version=0.4.0

@@ -1,6 +1,6 @@
 # description	: Contains an assortment of non-scalable icons of different sizes and themes
 # homepage	: https://www.gnome.org/
-# depends	: gtk3 hicolor-icon-theme icon-naming-utils
+# depends	: intltool icon-naming-utils gtk3
 
 name=gnome-icon-theme
 version=3.12.0

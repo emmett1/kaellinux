@@ -1,6 +1,6 @@
 # description	: Fast and lightweight image viewer for the Xfce desktop
 # homepage	: http://docs.xfce.org/apps/ristretto/start
-# depends	: libexif libxfce4ui
+# depends	: gtk3 pango harfbuzz atk cairo gdk-pixbuf glib libexif xfconf libxfce4util libxfce4ui libsm libice libx11 file
 
 name=ristretto
 version=0.10.0

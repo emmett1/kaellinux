@@ -1,6 +1,6 @@
 # description	: Print spooler and associated utilities
 # homepage	: https://www.cups.org/
-# depends	: gnutls libusb linux-pam dbus colord xdg-utils
+# depends	: linux-pam acl dbus zlib gnutls libusb
 
 name=cups
 version=2.3.1

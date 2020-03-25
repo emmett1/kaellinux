@@ -1,6 +1,6 @@
 # description	: Reference implementation of the Theora video compression format
 # homepage	: https://www.xiph.org/
-# depends	: libogg libvorbis
+# depends	: libogg
 
 name=libtheora
 version=1.1.1

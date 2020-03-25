@@ -1,5 +1,6 @@
 # description	: Library to create an ISO-9660 filesystem with extensions like RockRidge or Joliet
 # homepage	: http://libburnia-project.org/
+# depends	: zlib acl
 
 name=libisofs
 version=1.5.2

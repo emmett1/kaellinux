@@ -1,6 +1,5 @@
 # description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
-# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2 libcdio-paranoia openssh dbus meson libusb fuse3
-# optdepends	: libmtp libimobiledevice
+# depends	: glib libgudev udisks2 libsecret libsoup libxml2 gcr libgcrypt libcdio-paranoia fuse3 polkit libarchive gsettings-desktop-schemas
 
 name=gvfs
 version=1.44.0
@@ -29,11 +28,8 @@ build() {
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
 	      -Ddnssd=false     \
+	      -Dsftp=false \
 	      ${GVFS_OPTS}
 	ninja
 	DESTDIR=$PKG ninja install
-
-	# exclude library for revdep
-	mkdir -p $PKG/etc/revdep.d/
-	echo libgvfscommon.so > $PKG/etc/revdep.d/$name.conf
 }

@@ -1,6 +1,6 @@
 # description	: Text based web browser
 # homepage	: https://lynx.isc.org/
-# depends	: gnutls
+# depends	: zlib bzip2 ncurses libressl
 
 name=lynx
 version=2.8.9rel.1
