@@ -8,16 +8,21 @@ release=1
 source="ftp://ftp.pcre.org/pub/$name/$name-$version.tar.bz2"
 
 build() {
+	if [ "$BOOTSTRAP" ]; then
+		flags="--host=$TARGET --build=$HOST"
+	fi
+
 	cd $name-$version
 
-	./configure --prefix=/usr                     \
-	            --enable-unicode-properties       \
-	            --enable-pcre16                   \
-	            --enable-pcre32                   \
-	            --enable-pcregrep-libz            \
-	            --enable-pcregrep-libbz2          \
-	            --enable-pcretest-libreadline     \
-	            --disable-static
+	./configure $flags \
+		--prefix=/usr \
+		--enable-unicode-properties \
+		--enable-pcre16 \
+		--enable-pcre32 \
+		--enable-pcregrep-libz \
+		--enable-pcregrep-libbz2 \
+		--enable-pcretest-libreadline \
+		--disable-static
 	make
 	make DESTDIR=$PKG install
 

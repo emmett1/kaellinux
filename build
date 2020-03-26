@@ -363,7 +363,7 @@ main() {
 	[ "$REBASE" = 1 ] && rebase_rootfs
 	[ "$RFS" = 1 ] && build_rootfs
 	[ "$PKG" ] && {
-		chrootbuild || exit 1
+		chrootbuild || exit 1c
 	}
 	[ "$LIVE" = 1 ] && build_livecd
 }

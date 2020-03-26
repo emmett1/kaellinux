@@ -1,6 +1,7 @@
 d:dbus
 d:mkfontscale
 d:font-jis-misc
+d:openbox
 d:json-glib
 d:libsm
 d:meson
@@ -202,6 +203,7 @@ d:libnl
 d:readline
 d:xdg-user-dirs
 d:wayland
+d:python3-xdg
 d:fuse3
 d:libatasmart
 d:xfce4-dict
@@ -301,6 +303,7 @@ d:xwininfo
 d:xdriinfo
 d:elfutils
 d:nettle
+d:imlib2
 d:colord
 d:webkitgtk
 d:x11perf
@@ -478,6 +481,9 @@ f:d7cf6239b7ad550af44ff7044b6d24d4:mkfontscale/.checksums
 f:905e3d74020f85fc9bb10ac828135acd:font-jis-misc/.pkgfiles
 f:b5fea230da69f9d6611189adeeab68ea:font-jis-misc/spkgbuild
 f:0c5f83419b58ee54cd03739a88f0a9f3:font-jis-misc/.checksums
+f:bbb4fbbcf53fa3c64cb9637f784a7b6f:openbox/.pkgfiles
+f:7d9b4ed39c5eeab7d4463b837370a781:openbox/spkgbuild
+f:5668f19b0d8b685eddb56d6393b82cc9:openbox/.checksums
 f:f52f31e21e5d306089701d5a3506bca5:json-glib/.pkgfiles
 f:717431282c20fa0335509bd53fd2ed5f:json-glib/spkgbuild
 f:8c9c3dc47be85db3cfe264bceed0514e:json-glib/.checksums
@@ -503,7 +509,7 @@ f:7ca2785b5710fba29746951e26d7d05d:sdl2/.pkgfiles
 f:c7b04885bf5828185d1ee21283e15ffe:sdl2/spkgbuild
 f:ce8c8d40c374a0fed2f86c9d44471a41:sdl2/.checksums
 f:6d4a79d6caf365e2b25ce19402eb07a4:pcre/.pkgfiles
-f:d771cd20a9178a93923ed9e3cc6458a0:pcre/spkgbuild
+f:a55268ee19c2c83dc18e38b479e5cf68:pcre/spkgbuild
 f:151a025aa036477ed920100fb45b3947:pcre/.checksums
 f:3c80627ee5cebe18624016d8b2372618:upower/.pkgfiles
 f:286957d54b273610908f3dccf28dcfc3:upower/spkgbuild
@@ -1156,6 +1162,9 @@ f:0b6605854b16c1825c0e0a73a0b48ecf:xdg-user-dirs/.checksums
 f:dcf3eb5569ecbb098230b4ff988e3256:wayland/.pkgfiles
 f:88245349e84e4c64b338b0ef426dd2f9:wayland/spkgbuild
 f:61c1cb90a623425d29aace9ed29e9154:wayland/.checksums
+f:4fb5112045e57b6f54bbeed07eb59b2d:python3-xdg/.pkgfiles
+f:8bc1515226f1cbf6565793e569996194:python3-xdg/spkgbuild
+f:fef1461be5a4af56abb78b209005da53:python3-xdg/.checksums
 f:856802f7ac6a2e3b00cdc72e7805a67d:fuse3/musl.patch
 f:1db9e2d8c54ab22f3a593e5f541900ea:fuse3/.pkgfiles
 f:3516a2a41a748dade2c608e580eb31bc:fuse3/spkgbuild
@@ -1432,8 +1441,8 @@ f:45c1466859090c8e5d6cff43c9afe9ae:librsvg/.checksums
 f:2a8b0a92fef7016b4d03ff7cc835662c:flac/.pkgfiles
 f:5365861af176a165fdbcd6ffa7fccc6e:flac/spkgbuild
 f:7c7130c85f040f8bb255c7962b58496b:flac/.checksums
-f:d02633675d1b46b9bddca67fe328921a:pango/.pkgfiles
-f:153445aa07bd4c637c7834ae131f62a5:pango/spkgbuild
+f:291b3edb8d5461c5fd70502273073713:pango/.pkgfiles
+f:d5f445f345bf7fe5ed164cf629af1277:pango/spkgbuild
 f:1084071c99c5f2faa08939fa7edd9718:pango/.checksums
 f:76226b0dee30494f6932b0a92d1ee6f4:alsa-lib/readme
 f:45291510be50c16c560891907279dfff:alsa-lib/.pkgfiles
@@ -1484,6 +1493,9 @@ f:6bc8334fcbde2366657da66c8fb14bb0:elfutils/0006-Fix-build-on-aarch64-musl.patch
 f:1b151354eb3ff92945e8dd632697cba4:nettle/.pkgfiles
 f:b4b27a9eb941c81c2d22677254b4240a:nettle/spkgbuild
 f:5be20327f0975285ffb6a6aa934658c7:nettle/.checksums
+f:dcf04469006d01118e74c74291f469cf:imlib2/.pkgfiles
+f:c6d5b69da64b6c843a1df8333d26183d:imlib2/spkgbuild
+f:2ff515280287c0f4779dfa0af8808cc8:imlib2/.checksums
 f:0f9e44c656ffdf55c50da9f9bed2d3db:colord/.pkgfiles
 f:30ac47eef1a94a46c8623f8f212ed038:colord/spkgbuild
 f:13a7ddbc0b1d6e448fa7ee6a5c319033:colord/install
